@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "638302063165",
+    "project_id": "seven-electronic-ee195",
+    "storage_bucket": "seven-electronic-ee195.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:638302063165:android:0b48968177047a7af7b854",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "638302063165-e1r8372vsm2d4cq830efqp277di728b2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_application_1",
+            "certificate_hash": "7962c893ac61d39539eb6d52e3064ff2b3c961e6"
+          }
+        },
+        {
+          "client_id": "638302063165-tavql7lbs5cb6igh5ai33tsv9hk7cnfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLVx3EbmyooSNixopMn6kmKclp7P7gf6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "638302063165-tavql7lbs5cb6igh5ai33tsv9hk7cnfd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
