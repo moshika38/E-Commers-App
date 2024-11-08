@@ -21,11 +21,35 @@ class UserServices {
 
   // GET single data
   Future<UserModel?> getSingleUser(String id) async {
-    DocumentSnapshot doc = await collection.doc(id).get();
-    if (doc.exists) {
-      return UserModel.fromDocument(doc);
-    } else {
-      return null;
+    try {
+      DocumentSnapshot doc = await collection.doc(id).get();
+      if (doc.exists) {
+        return UserModel.fromDocument(doc);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      if (e is FirebaseException && e.code == 'unavailable') {
+        // Implement exponential backoff retry
+        int retryAttempts = 3;
+        int delayMs = 1000; // Start with 1 second delay
+        
+        for (int i = 0; i < retryAttempts; i++) {
+          try {
+            await Future.delayed(Duration(milliseconds: delayMs));
+            DocumentSnapshot doc = await collection.doc(id).get();
+            if (doc.exists) {
+              return UserModel.fromDocument(doc);
+            } else {
+              return null;
+            }
+          } catch (retryError) {
+            if (i == retryAttempts - 1) rethrow; // Rethrow on last attempt
+            delayMs *= 2; // Exponential backoff
+          }
+        }
+      }
+      rethrow; // Rethrow other exceptions
     }
   }
 
