@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:login_app/models/user_model.dart';
+import 'package:flutter_application_1/models/user_model.dart';
+
 
 class UserServices {
   final CollectionReference collection =

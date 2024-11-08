@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/widgets/profile_widgets/address.dart';
-import 'package:login_app/widgets/profile_widgets/logout.dart';
-import 'package:login_app/widgets/profile_widgets/payment.dart';
-import 'package:login_app/widgets/profile_widgets/user_details.dart';
+import 'package:flutter_application_1/widgets/profile_widgets/address.dart';
+import 'package:flutter_application_1/widgets/profile_widgets/logout.dart';
+import 'package:flutter_application_1/widgets/profile_widgets/payment.dart';
+import 'package:flutter_application_1/widgets/profile_widgets/user_details.dart';
 import 'package:lottie/lottie.dart';
 import '../utils/app_colors.dart';
 

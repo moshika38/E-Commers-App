@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/utils/app_colors.dart';
-
+import 'package:flutter_application_1/utils/app_colors.dart';
+ 
 class CategoryTab extends StatefulWidget {
   final String text;
   final bool isActive;

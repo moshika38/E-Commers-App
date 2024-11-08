@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:login_app/models/user_model.dart';
-import 'package:login_app/screens/cart_screen.dart';
-import 'package:login_app/screens/explore_screen.dart';
-import 'package:login_app/screens/favorites_screen.dart';
-import 'package:login_app/screens/home_screen.dart';
-import 'package:login_app/screens/profile_screen.dart';
-import 'package:login_app/services/user_services.dart';
+import 'package:flutter_application_1/models/user_model.dart';
+import 'package:flutter_application_1/screens/cart_screen.dart';
+import 'package:flutter_application_1/screens/explore_screen.dart';
+import 'package:flutter_application_1/screens/favorites_screen.dart';
+import 'package:flutter_application_1/screens/home_screen.dart';
+import 'package:flutter_application_1/screens/profile_screen.dart';
+import 'package:flutter_application_1/services/user_services.dart';
+
 import '../utils/app_colors.dart';
 
 class MainScreen extends StatefulWidget {

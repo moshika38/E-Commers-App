@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:login_app/screens/login_screen.dart';
-import 'package:login_app/screens/main_screen.dart';
-import 'package:login_app/widgets/social_button.dart';
+import 'package:flutter_application_1/screens/login_screen.dart';
+import 'package:flutter_application_1/screens/main_screen.dart';
+import 'package:flutter_application_1/widgets/social_button.dart';
 import '../utils/app_colors.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/custom_button.dart';

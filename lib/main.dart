@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/main_screen.dart';
+import 'package:flutter_application_1/screens/onbording_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:login_app/screens/main_screen.dart';
-import 'package:login_app/screens/onbording_screen.dart';
 import 'utils/app_colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

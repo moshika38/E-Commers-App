@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/widgets/category_tab.dart';
-import 'package:login_app/widgets/coffee_card.dart';
+import 'package:flutter_application_1/widgets/category_tab.dart';
+import 'package:flutter_application_1/widgets/coffee_card.dart';
 import '../utils/app_colors.dart';
 
 class ExploreScreen extends StatefulWidget {

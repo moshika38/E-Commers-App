@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:login_app/models/address_model.dart';
-import 'package:login_app/models/cart_model.dart';
-import 'package:login_app/models/payment_model.dart';
-import 'package:login_app/models/user_fav_model.dart';
+import 'package:flutter_application_1/models/address_model.dart';
+import 'package:flutter_application_1/models/cart_model.dart';
+import 'package:flutter_application_1/models/payment_model.dart';
+import 'package:flutter_application_1/models/user_fav_model.dart';
+
 
 class UserModel {
   final String id;

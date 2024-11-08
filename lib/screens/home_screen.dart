@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:login_app/screens/item_screen.dart';
-import 'package:login_app/screens/notification_sereen.dart';
-import 'package:login_app/widgets/banner.dart';
-import 'package:login_app/widgets/category_item.dart';
-import 'package:login_app/widgets/product_cart.dart';
-import 'package:login_app/widgets/search_bar.dart';
+import 'package:flutter_application_1/screens/item_screen.dart';
+import 'package:flutter_application_1/screens/notification_sereen.dart';
+import 'package:flutter_application_1/widgets/banner.dart';
+import 'package:flutter_application_1/widgets/category_item.dart';
+import 'package:flutter_application_1/widgets/product_cart.dart';
+import 'package:flutter_application_1/widgets/search_bar.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:login_app/utils/app_colors.dart';
-import 'package:login_app/widgets/cart_item.dart';
+import 'package:flutter_application_1/utils/app_colors.dart';
+import 'package:flutter_application_1/widgets/cart_item.dart';
+
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
