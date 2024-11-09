@@ -17,16 +17,25 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-    UserModel? userModel;
+  UserModel? userModel;
+  String displayName = '';
+  String profileImage = "";
+  String userEmail = "";
 
   void getCurrentUserDetails() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       UserServices().getSingleUser(currentUser.uid).then((value) {
-        setState(() {
-          userModel = value;
-        });
+        if (value != null) {
+          setState(() {
+            userModel = value;
+            displayName = userModel?.displayName?.isNotEmpty == true
+                ? userModel!.displayName!
+                : 'Guest';
+            profileImage = userModel?.photoURL ?? "";
+            userEmail = currentUser.email ?? "";
+          });
+        }
       });
     }
   }
@@ -36,7 +45,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     getCurrentUserDetails();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +78,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Stack(
                   children: [
-                    
                     CircleAvatar(
                       radius: 60,
                       backgroundColor: AppColors.primary.withOpacity(0.1),
                       child: Center(
-                        child: userModel?.photoURL != null
-                            ? Image.network(
-                                userModel!.photoURL!,
-                                fit: BoxFit.cover,
+                        child: profileImage.isNotEmpty
+                            ? CircleAvatar(
+                                radius: 60,
+                                backgroundImage: NetworkImage(profileImage),
                               )
                             : Lottie.asset(
                                 'assets/animations/user.json',
@@ -101,11 +108,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            // TODO: Implement ie picker functionality
+                            // TODO: Implementie picker functionality
                             UserDetails(
+                              uid: userModel!.id,
                               context: context,
-                              nameController: TextEditingController(),
-                              displayName: "Guest",
+                              nameController:
+                                  TextEditingController(text: displayName),
+                              displayName: displayName,
                             ).showWindow();
                           },
                           child: const Icon(
@@ -119,17 +128,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Guest',
-                  style: TextStyle(
+                Text(
+                  displayName,
+                  style: const TextStyle(
                     color: AppColors.headingText,
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const Text(
-                  "email",
-                  style: TextStyle(
+                Text(
+                  userEmail,
+                  style: const TextStyle(
                     color: AppColors.primary,
                     fontSize: 14,
                   ),

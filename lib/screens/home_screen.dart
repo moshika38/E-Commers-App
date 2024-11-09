@@ -54,10 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         width: 40,
                         height: 40,
-                        child: userModel?.photoURL != null
+                        child: userModel?.photoURL != null &&
+                                userModel!.photoURL!.isNotEmpty
                             ? CircleAvatar(
                                 backgroundImage:
-                                    NetworkImage(userModel?.photoURL ?? ''),
+                                    NetworkImage(userModel!.photoURL!),
                               )
                             : Lottie.asset(
                                 'assets/animations/user.json',
@@ -73,9 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           Text(
-                            (userModel?.displayName?.length ?? 0) > 11
-                                ? '${userModel?.displayName?.substring(0, 11)}...'
-                                : (userModel?.displayName ?? 'Guest'),
+                            (userModel?.displayName?.isEmpty ?? true)
+                                ? 'Guest'
+                                : ((userModel!.displayName!.length > 11)
+                                    ? '${userModel!.displayName!.substring(0, 11)}...'
+                                    : userModel!.displayName!),
                             style: Theme.of(context).textTheme.headlineLarge,
                           ),
                         ],

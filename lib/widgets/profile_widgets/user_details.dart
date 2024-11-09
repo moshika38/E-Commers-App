@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/user_model.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
-
 
 class UserDetails {
   final BuildContext context;
   final TextEditingController nameController;
   final String displayName;
+  final String uid;
 
   UserDetails({
     required this.context,
     required this.nameController,
     required this.displayName,
+    required this.uid,
   });
 
   void showWindow() {
@@ -90,10 +93,14 @@ class UserDetails {
                     // TODO: Implement save functionality
 
                     if (nameController.text.isNotEmpty) {
-                      // TODO: Implement update functionality
+                      UserServices().updateUser(
+                        UserModel(id: uid, displayName: nameController.text),
+                      );
+                      
                     }
 
                     Navigator.pop(context);
+                     
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
