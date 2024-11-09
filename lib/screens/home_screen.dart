@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/item_data.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/screens/item_screen.dart';
 import 'package:flutter_application_1/screens/notification_sereen.dart';
@@ -18,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ItemData itemData = ItemData();
+
   UserModel? userModel;
   User? user;
 
@@ -166,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 6,
+                itemCount: itemData.itemDataList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.7,
@@ -179,20 +182,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ItemScreen(
-                            itemName: 'Cappuccino',
-                            price: 4.99,
-                            description: 'With Oat Milk',
-                            imageUrl: 'assets/icons/coffee-logo.png',
+                          builder: (context) => ItemScreen(
+                            index: index.toString(),
+                            itemName: itemData.itemDataList[index].name,
+                            price: itemData.itemDataList[index].price,
+                            description:
+                                itemData.itemDataList[index].description,
+                            imageUrl: itemData.itemDataList[index].imageUrl,
                           ),
                         ),
                       );
                     },
-                    child: const ProductCard(
-                      name: 'Cappuccino',
-                      description: 'With Oat Milk',
-                      price: 4.99,
-                      imageUrl: 'assets/icons/coffee-logo.png',
+                    child: ProductCard(
+                      name: itemData.itemDataList[index].name,
+                      description: itemData.itemDataList[index].description,
+                      price: itemData.itemDataList[index].price,
+                      imageUrl: itemData.itemDataList[index].imageUrl,
                     ),
                   );
                 },

@@ -3,6 +3,7 @@ import '../utils/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ItemScreen extends StatefulWidget {
+  final String index;
   final String itemName;
   final double price;
   final String description;
@@ -10,6 +11,7 @@ class ItemScreen extends StatefulWidget {
 
   const ItemScreen({
     super.key,
+    required this.index,
     required this.itemName,
     required this.price,
     required this.description,
