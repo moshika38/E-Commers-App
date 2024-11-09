@@ -109,13 +109,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: InkWell(
                           onTap: () {
                             // TODO: Implementie picker functionality
-                            UserDetails(
-                              uid: userModel!.id,
-                              context: context,
-                              nameController:
-                                  TextEditingController(text: displayName),
-                              displayName: displayName,
-                            ).showWindow();
+                            if (userModel != null) {
+                              UserDetails(
+                                uid: userModel!.id,
+                                context: context,
+                                nameController:
+                                    TextEditingController(text: displayName),
+                                displayName: displayName,
+                              ).showWindow();
+                            }
                           },
                           child: const Icon(
                             Icons.edit,

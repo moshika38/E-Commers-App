@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserDetails {
   final BuildContext context;
@@ -45,7 +45,18 @@ class UserDetails {
               const SizedBox(height: 20),
               InkWell(
                 onTap: () async {
-                  Navigator.pop(context);
+                  final ImagePicker picker = ImagePicker();
+                  final XFile? image = await picker.pickImage(
+                    source: ImageSource.gallery,
+                    maxWidth: 512,
+                    maxHeight: 512,
+                    imageQuality: 75,
+                  );
+
+                  if (image != null) {
+                    // TODO: Handle the selected image
+                    print('Selected image path: ${image.path}');
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(12),
@@ -93,14 +104,13 @@ class UserDetails {
                     // TODO: Implement save functionality
 
                     if (nameController.text.isNotEmpty) {
-                      UserServices().updateUser(
-                        UserModel(id: uid, displayName: nameController.text),
+                      UserServices().updateUserFields(
+                        uid,
+                        {'displayName': nameController.text},
                       );
-                      
                     }
 
                     Navigator.pop(context);
-                     
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,

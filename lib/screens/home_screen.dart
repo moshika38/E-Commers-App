@@ -19,10 +19,25 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   UserModel? userModel;
+  User? user;
 
-  void getCurrentUserDetails() async {
+  void createUserProfile() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
+      user = currentUser;
+      setState(() {});
+
+      final userDoc = await UserServices().getSingleUser(user!.uid);
+      if (userDoc == null) {
+        // User exists, update
+        await UserServices().addUser(
+          UserModel(
+            displayName: user!.displayName ?? "Guest",
+            id: user!.uid,
+            photoURL: user!.photoURL ?? "",
+          ),
+        );
+      }
       UserServices().getSingleUser(currentUser.uid).then((value) {
         setState(() {
           userModel = value;
@@ -34,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getCurrentUserDetails();
+    createUserProfile();
   }
 
   @override
