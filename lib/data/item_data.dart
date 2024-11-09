@@ -3,13 +3,15 @@ import 'package:flutter_application_1/models/rating_model.dart';
 
 class ItemData {
   final List<ItemModel> itemDataList = [
+    
+    // coffee items
     ItemModel(
       id: "1",
       name: "Black Coffee",
       description: "Pure black coffee",
       price: 5.0,
       imageUrl: "assets/images/blackCoffee.jpg",
-        
+      type: "Coffee",
       rating: [
         RatingModel(
           rating: 4.5,
@@ -31,6 +33,7 @@ class ItemData {
       description: "Espresso with milk",
       price: 6.0,
       imageUrl: "assets/images/latte.jpg",
+      type: "Coffee",
       rating: [
         RatingModel(
           rating: 4.8,
@@ -46,6 +49,7 @@ class ItemData {
       description: "Espresso with foam",
       price: 6.5,
       imageUrl: "assets/images/Cappuccino.jpg",
+      type: "Coffee",
       rating: [
         RatingModel(
           rating: 4.7,
@@ -61,6 +65,7 @@ class ItemData {
       description: "Espresso with chocolate and milk",
       price: 7.0,
       imageUrl: "assets/images/mocha.jpg",
+      type: "Coffee",
       rating: [
         RatingModel(
           rating: 4.6,
@@ -82,6 +87,7 @@ class ItemData {
       description: "Strong concentrated coffee",
       price: 4.5,
       imageUrl: "assets/images/espresso.jpg",
+      type: "Coffee",
       rating: [
         RatingModel(
           rating: 4.9,
@@ -97,6 +103,7 @@ class ItemData {
       description: "Espresso diluted with hot water",
       price: 5.5,
       imageUrl: "assets/images/americano.jpg",
+      type: "Coffee",
       rating: [
         RatingModel(
           rating: 4.4,
@@ -112,6 +119,7 @@ class ItemData {
       description: "Espresso with a dash of milk foam",
       price: 6.0,
       imageUrl: "assets/images/macchiato.jpg",
+      type: "Coffee",
       rating: [
         // Macchiato ratings
         RatingModel(
@@ -128,5 +136,7 @@ class ItemData {
         ),
       ],
     ),
+
+    // tea items
   ];
 }

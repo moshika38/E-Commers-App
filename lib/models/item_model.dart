@@ -7,6 +7,7 @@ class ItemModel {
   final String description;
   final double price;
   final String imageUrl;
+  final String? type;
   
   final List<RatingModel>? rating;
 
@@ -17,6 +18,7 @@ class ItemModel {
     required this.price,
     required this.imageUrl,
     this.rating,
+    this.type,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,6 +29,7 @@ class ItemModel {
       'price': price,
       'imageUrl': imageUrl,
       'rating': rating?.map((r) => r.toMap()).toList(),
+      'type': type,
     };
   }
 
@@ -41,6 +44,7 @@ class ItemModel {
           ? List<RatingModel>.from(
               doc['rating'].map((r) => RatingModel.fromDocument(r)))
           : null,
+      type: doc['type'],
     );
   }
 }
