@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/item_data.dart';
 import '../utils/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -24,13 +25,8 @@ class ItemScreen extends StatefulWidget {
 
 class _ItemScreenState extends State<ItemScreen> {
   int quantity = 1;
-  double rating = 4.5;
+
   final PageController _pageController = PageController();
-  final List<String> images = [
-    "assets/icons/coffee-logo.png",
-    "assets/icons/coffee-logo.png",
-    "assets/icons/coffee-logo.png",
-  ];
 
   void _incrementQuantity() {
     setState(() {
@@ -54,6 +50,21 @@ class _ItemScreenState extends State<ItemScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // rating
+    double rating = double.parse(ItemData()
+            .itemDataList[int.parse(widget.index)]
+            .rating
+            ?.map((r) => r.rating)
+            .reduce((a, b) => a > b ? a : b)
+            .toString() ??
+        '0');
+
+    // list of images
+    final List<String> images = [
+      widget.imageUrl,
+    ];
+
+    // scaffold
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -247,157 +258,43 @@ class _ItemScreenState extends State<ItemScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          const SizedBox(height: 16),
+
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: ItemData()
+                                    .itemDataList[int.parse(widget.index)]
+                                    .rating
+                                    ?.length ??
+                                0,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              childAspectRatio: 3.5,
+                              mainAxisSpacing: 16,
+                            ),
+                            itemBuilder: (context, index) {
+                              return ReviewCard(
+                                userEmail: ItemData()
+                                        .itemDataList[int.parse(widget.index)]
+                                        .rating?[index]
+                                        .user ??
+                                    'Anonymous',
+                                massage: ItemData()
+                                        .itemDataList[int.parse(widget.index)]
+                                        .rating?[index]
+                                        .massage ??
+                                    'No massage',
+                                rateValue: ItemData()
+                                        .itemDataList[int.parse(widget.index)]
+                                        .rating?[index]
+                                        .rating ??
+                                    0,
+                              );
+                            },
+                          ),
+
                           // Review Cards
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: AppColors.borderColor),
-                            ),
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'john.doe@example.com',
-                                      style: TextStyle(
-                                        color: AppColors.headingText,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      '5.0',
-                                      style: TextStyle(
-                                        color: AppColors.bodyText,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  'Amazing coffee! The oat milk adds a perfect creamy texture. Will definitely order again!',
-                                  style: TextStyle(
-                                    color: AppColors.bodyText,
-                                    fontSize: 14,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: AppColors.borderColor),
-                            ),
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'sarah.smith@example.com',
-                                      style: TextStyle(
-                                        color: AppColors.headingText,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      '4.5',
-                                      style: TextStyle(
-                                        color: AppColors.bodyText,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  'Great balance of flavors! The coffee is strong but not bitter. Love how the milk complements it.',
-                                  style: TextStyle(
-                                    color: AppColors.bodyText,
-                                    fontSize: 14,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: AppColors.borderColor),
-                            ),
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'mike.johnson@example.com',
-                                      style: TextStyle(
-                                        color: AppColors.headingText,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 20,
-                                    ),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      '4.0',
-                                      style: TextStyle(
-                                        color: AppColors.bodyText,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  'Solid cappuccino! The temperature was perfect and the foam was just right. Could be a bit stronger for my taste.',
-                                  style: TextStyle(
-                                    color: AppColors.bodyText,
-                                    fontSize: 14,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -451,6 +348,70 @@ class _ItemScreenState extends State<ItemScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ReviewCard extends StatelessWidget {
+  final String userEmail;
+  final String massage;
+  final double rateValue;
+  const ReviewCard(
+      {super.key,
+      required this.userEmail,
+      required this.massage,
+      required this.rateValue});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                userEmail,
+                style: TextStyle(
+                  color: AppColors.headingText,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Spacer(),
+              Icon(
+                Icons.star,
+                color: Colors.amber,
+                size: 20,
+              ),
+              SizedBox(width: 4),
+              Text(
+                rateValue.toString(),
+                style: TextStyle(
+                  color: AppColors.bodyText,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          Text(
+            massage,
+            style: TextStyle(
+              color: AppColors.bodyText,
+              fontSize: 14,
+              height: 1.5,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -194,6 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: ProductCard(
+                       index: index,
                       name: itemData.itemDataList[index].name,
                       description: itemData.itemDataList[index].description,
                       price: itemData.itemDataList[index].price,

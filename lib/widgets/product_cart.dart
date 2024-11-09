@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/item_data.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
- 
+
 class ProductCard extends StatefulWidget {
   final String name;
   final String description;
   final double price;
   final String imageUrl;
+  final int index;
 
   const ProductCard({
     super.key,
@@ -13,6 +15,7 @@ class ProductCard extends StatefulWidget {
     required this.description,
     required this.price,
     required this.imageUrl,
+    required this.index,
   });
 
   @override
@@ -47,8 +50,8 @@ class ProductCardState extends State<ProductCard> {
                   child: ClipRRect(
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(16)),
-                    child: Image(
-                      image: AssetImage(widget.imageUrl),
+                    child: Image.asset(
+                      widget.imageUrl,
                       width: double.infinity,
                       height: double.infinity,
                       fit: BoxFit.cover,
@@ -89,10 +92,19 @@ class ProductCardState extends State<ProductCard> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.star, color: Colors.amber, size: 16),
-                    Text('5.0', style: TextStyle(fontSize: 12)),
+                    const Icon(Icons.star, color: Colors.amber, size: 16),
+                    Text(
+                      ItemData()
+                              .itemDataList[widget.index]
+                              .rating
+                              ?.map((r) => r.rating)
+                              .reduce((a, b) => a > b ? a : b)
+                              .toString() ??
+                          '0',
+                      style: TextStyle(fontSize: 12),
+                    ),
                   ],
                 ),
                 Text(

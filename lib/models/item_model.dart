@@ -7,6 +7,7 @@ class ItemModel {
   final String description;
   final double price;
   final String imageUrl;
+  
   final List<RatingModel>? rating;
 
   ItemModel({

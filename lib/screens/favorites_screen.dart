@@ -57,6 +57,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     ),
                     itemBuilder: (context, index) {
                       return const ProductCard(
+                        index: 0,
                         name: 'Cappuccino',
                         description: 'With Oat Milk',
                         price: 4.99,
