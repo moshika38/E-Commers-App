@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/screens/item_screen.dart';
 import 'package:flutter_application_1/screens/notification_sereen.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/widgets/banner.dart';
 import 'package:flutter_application_1/widgets/category_item.dart';
 import 'package:flutter_application_1/widgets/product_cart.dart';
@@ -16,13 +18,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  User? user;
+  UserModel? userModel;
 
   void getCurrentUserDetails() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      setState(() {
-        user = currentUser;
+      UserServices().getSingleUser(currentUser.uid).then((value) {
+        setState(() {
+          userModel = value;
+        });
       });
     }
   }
@@ -50,9 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         width: 40,
                         height: 40,
-                        child: user?.photoURL != null
+                        child: userModel?.photoURL != null
                             ? CircleAvatar(
-                                backgroundImage: NetworkImage(user!.photoURL!),
+                                backgroundImage:
+                                    NetworkImage(userModel?.photoURL ?? ''),
                               )
                             : Lottie.asset(
                                 'assets/animations/user.json',
@@ -68,9 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           Text(
-                            (user?.displayName?.length ?? 0) > 11
-                                ? '${user?.displayName?.substring(0, 11)}...'
-                                : (user?.displayName ?? 'Guest'),
+                            (userModel?.displayName?.length ?? 0) > 11
+                                ? '${userModel?.displayName?.substring(0, 11)}...'
+                                : (userModel?.displayName ?? 'Guest'),
                             style: Theme.of(context).textTheme.headlineLarge,
                           ),
                         ],

@@ -1,10 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/widgets/profile_widgets/address.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/logout.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/payment.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/user_details.dart';
 import 'package:lottie/lottie.dart';
 import '../utils/app_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/user_model.dart';
+import 'package:flutter_application_1/services/user_services.dart';
+import 'package:flutter_application_1/widgets/profile_widgets/address.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -14,6 +17,27 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+    UserModel? userModel;
+
+  void getCurrentUserDetails() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      UserServices().getSingleUser(currentUser.uid).then((value) {
+        setState(() {
+          userModel = value;
+        });
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUserDetails();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,14 +70,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Stack(
                   children: [
+                    
                     CircleAvatar(
                       radius: 60,
                       backgroundColor: AppColors.primary.withOpacity(0.1),
                       child: Center(
-                        child: Lottie.asset(
-                          'assets/animations/user.json',
-                          fit: BoxFit.cover,
-                        ),
+                        child: userModel?.photoURL != null
+                            ? Image.network(
+                                userModel!.photoURL!,
+                                fit: BoxFit.cover,
+                              )
+                            : Lottie.asset(
+                                'assets/animations/user.json',
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                     Positioned(
