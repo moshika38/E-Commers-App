@@ -21,15 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
   UserModel? userModel;
   User? user;
 
+  // if user is new then create user data else get user data from firebase
   void createUserProfile() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       user = currentUser;
       setState(() {});
-
       final userDoc = await UserServices().getSingleUser(user!.uid);
       if (userDoc == null) {
-        // User exists, update
         await UserServices().addUser(
           UserModel(
             displayName: user!.displayName ?? "Guest",

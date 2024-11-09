@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_1/models/rating_model.dart';
 
 class ItemModel {
   final String id;
@@ -6,6 +7,7 @@ class ItemModel {
   final String description;
   final double price;
   final String imageUrl;
+  final List<RatingModel>? rating;
 
   ItemModel({
     required this.id,
@@ -13,6 +15,7 @@ class ItemModel {
     required this.description,
     required this.price,
     required this.imageUrl,
+    this.rating,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +25,7 @@ class ItemModel {
       'description': description,
       'price': price,
       'imageUrl': imageUrl,
+      'rating': rating?.map((r) => r.toMap()).toList(),
     };
   }
 
@@ -30,8 +34,12 @@ class ItemModel {
       id: doc.id,
       name: doc['name'],
       description: doc['description'],
-      price: doc['price'],
+      price: doc['price'].toDouble(),
       imageUrl: doc['imageUrl'],
+      rating: doc['rating'] != null
+          ? List<RatingModel>.from(
+              doc['rating'].map((r) => RatingModel.fromDocument(r)))
+          : null,
     );
   }
 }
