@@ -1,12 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/screens/cart_screen.dart';
 import 'package:flutter_application_1/screens/explore_screen.dart';
 import 'package:flutter_application_1/screens/favorites_screen.dart';
 import 'package:flutter_application_1/screens/home_screen.dart';
 import 'package:flutter_application_1/screens/profile_screen.dart';
-import 'package:flutter_application_1/services/user_services.dart';
 
 import '../utils/app_colors.dart';
 
@@ -22,61 +19,18 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  UserModel? userModel;
-  User? user;
-
-  void createUserProfile() async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      user = currentUser;
-      setState(() {});
-      try {
-        final userDoc = await UserServices().getSingleUser(user!.uid);
-        if (userDoc == null) {
-          // Create new user profile for first-time users
-          final newUser = UserModel(
-            displayName: user!.displayName ?? "Guest",
-            id: user!.uid,
-            photoURL: user!.photoURL ?? "",
-          );
-          await UserServices().addUser(newUser);
-          setState(() {
-            userModel = newUser;
-          });
-        } else {
-          // For existing users, update their details if they've changed
-          final existingUser = UserModel.fromMap(userDoc as Map<String, dynamic>);
-          if (existingUser.displayName != user!.displayName || 
-              existingUser.photoURL != user!.photoURL) {
-            final updatedUser = UserModel(
-              displayName: user!.displayName ?? existingUser.displayName,
-              id: user!.uid,
-              photoURL: user!.photoURL ?? existingUser.photoURL,
-            );
-            await UserServices().addUser(updatedUser);
-            setState(() {
-              userModel = updatedUser;
-            });
-          } else {
-            // No changes needed, just load existing data
-            setState(() {
-              userModel = existingUser;
-            });
-          }
-        }
-      } catch (e) {
-        print('Error creating/fetching user profile: $e');
-      }
-    }
-  }
+  int currentIndex = 2;
 
   @override
   void initState() {
     super.initState();
-    createUserProfile();
+     
+    if (widget.loadScreen != null) {
+      setState(() {
+        currentIndex = widget.loadScreen ?? 2;
+      });
+    }
   }
-
-  int currentIndex = 2;
 
   List<Widget> screens = [
     const ExploreScreen(),

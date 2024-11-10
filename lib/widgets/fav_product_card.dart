@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/item_data.dart';
+import 'package:flutter_application_1/screens/main_screen.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
 import 'package:flutter_application_1/services/user_services.dart';
 
@@ -80,6 +81,18 @@ class FavProductCardState extends State<FavProductCard> {
                       UserServices().removeFromFavorites(
                         FirebaseAuth.instance.currentUser!.uid,
                         widget.itemId,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Removed from favorites'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(loadScreen: 3),
+                        ),
                       );
                     },
                     style: IconButton.styleFrom(

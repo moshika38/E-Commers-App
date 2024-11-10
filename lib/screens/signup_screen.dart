@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/screens/login_screen.dart';
 import 'package:flutter_application_1/screens/main_screen.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/widgets/social_button.dart';
 import '../utils/app_colors.dart';
 import '../widgets/custom_text_field.dart';
@@ -27,6 +29,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool isLoading = false;
   String errorMessage = "";
 
+  UserModel? userModel;
+  User? user;
+
   // form validation function
   void checkError() async {
     final result = FormValidator.validateSignUpForm(
@@ -41,6 +46,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
       isPasswordErr = result.isPasswordError;
       isConfirmPasswordErr = result.isConfirmPasswordError;
     });
+
+    void createUserProfile() async {
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        user = currentUser;
+        setState(() {});
+        try {
+          final userDoc = await UserServices().getSingleUser(user!.uid);
+          if (userDoc == null) {
+            // Create new user profile for first-time users
+            final newUser = UserModel(
+              displayName: user!.displayName ?? "Guest",
+              id: user!.uid,
+              photoURL: user!.photoURL ?? "",
+            );
+            await UserServices().addUser(newUser);
+            setState(() {
+              userModel = newUser;
+            });
+          } else {
+            // For existing users, update their details if they've changed
+            final existingUser =
+                UserModel.fromMap(userDoc as Map<String, dynamic>);
+            if (existingUser.displayName != user!.displayName ||
+                existingUser.photoURL != user!.photoURL) {
+              final updatedUser = UserModel(
+                displayName: user!.displayName ?? existingUser.displayName,
+                id: user!.uid,
+                photoURL: user!.photoURL ?? existingUser.photoURL,
+              );
+              await UserServices().addUser(updatedUser);
+              setState(() {
+                userModel = updatedUser;
+              });
+            } else {
+              // No changes needed, just load existing data
+              setState(() {
+                userModel = existingUser;
+              });
+            }
+          }
+        } catch (e) {
+          print('Error creating/fetching user profile: $e');
+        }
+      }
+    }
 
     // email password login
     if (!result.isEmailError &&
@@ -62,6 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         emailController.clear();
         passwordController.clear();
         confirmPasswordController.clear();
+        createUserProfile();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Account created successfully! Please login.'),

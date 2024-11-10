@@ -138,7 +138,7 @@ class _CartScreenState extends State<CartScreen> {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 1,
-                          childAspectRatio: 2,
+                          childAspectRatio: 1.7,
                         ),
                         itemBuilder: (context, index) {
                           return Column(
