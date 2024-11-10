@@ -1,42 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CartModel {
-  final String? id;
-  final String invoice;
-  final String coustomoer;
-  final String datetime;
+  final String id;
+  final String uid;
+  final int? qty;  
 
+  final List<String> cartItem;
   CartModel({
-    this.id,
-    required this.invoice,
-    required this.coustomoer,
-    required this.datetime,
+      this.qty,
+    required this.id,
+    required this.uid,
+    required this.cartItem,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'invoice': invoice,
-      'coustomoer': coustomoer,
-      'datetime': datetime,
+      'uid': uid,
+      'qty': qty,
+      'cartItem': cartItem,
     };
   }
 
   factory CartModel.fromDocument(DocumentSnapshot doc) {
     return CartModel(
       id: doc.id,
-      invoice: doc['invoice'],
-      coustomoer: doc['coustomoer'],
-      datetime: doc['datetime'],
+      uid: doc['uid'],
+      qty: doc['qty'],
+      cartItem: List<String>.from(doc['cartItem']),
     );
   }
 
   factory CartModel.fromMap(Map<String, dynamic> map) {
     return CartModel(
       id: map['id'],
-      invoice: map['invoice'],
-      coustomoer: map['coustomoer'],
-      datetime: map['datetime'],
+      uid: map['uid'],
+      qty: map['qty'],
+      cartItem: List<String>.from(map['cartItem']),
     );
   }
 }

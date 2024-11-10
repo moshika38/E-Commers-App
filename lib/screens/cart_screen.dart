@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/item_data.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
 import 'package:flutter_application_1/widgets/cart_item.dart';
-
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -11,6 +13,49 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  List<String> cartItemIndex = [];
+  final ItemData itemData = ItemData();
+  Map<String, int> quantities = {};
+
+  @override
+  void initState() {
+    super.initState();
+    getUserCart();
+  }
+
+  void getUserCart() async {
+    try {
+      final cartModel = await UserServices().getUserCart(
+        FirebaseAuth.instance.currentUser!.uid,
+      );
+      
+      setState(() {
+        cartItemIndex = cartModel?.cartItem ?? [];
+        for (var item in cartItemIndex) {
+          quantities[item] = 1;
+        }
+      });
+      debugPrint('Cart items: $cartItemIndex');
+    } catch (e) {
+      debugPrint('Error fetching cart: $e');
+    }
+  }
+
+  double calculateSubtotal() {
+    double subtotal = 0;
+    for (var index in cartItemIndex) {
+      subtotal += itemData.itemDataList[int.parse(index)].price *
+          (quantities[index] ?? 1);
+    }
+    return subtotal;
+  }
+
+  void updateQuantity(String itemIndex, int newQuantity) {
+    setState(() {
+      quantities[itemIndex] = newQuantity;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,10 +65,10 @@ class _CartScreenState extends State<CartScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Shopping Cart',
                     style: TextStyle(
                       fontSize: 24,
@@ -32,8 +77,8 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
                   Text(
-                    '(3 items)',
-                    style: TextStyle(
+                    '(${cartItemIndex.length} items)',
+                    style: const TextStyle(
                       color: AppColors.bodyText,
                     ),
                   ),
@@ -48,25 +93,40 @@ class _CartScreenState extends State<CartScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: const EdgeInsets.all(20),
-                    child: const Column(
-                      children: [
-                        CartItem(
-                          image: 'assets/icons/coffee-logo.png',
-                          name: 'Cappuccino',
-                          description: 'With Oat Milk',
-                          price: 4.99,
-                          quantity: 1,
-                        ),
-                        Divider(),
-                        CartItem(
-                          image: 'assets/icons/coffee-logo.png',
-                          name: 'Latte',
-                          description: 'With Almond Milk',
-                          price: 5.99,
-                          quantity: 2,
-                        ),
-                         
-                      ],
+                    child: GridView.builder(
+                      itemCount: cartItemIndex.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        childAspectRatio: 2,
+                      ),
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            CartItem(
+                              name: itemData
+                                  .itemDataList[int.parse(cartItemIndex[index])]
+                                  .name,
+                              image: itemData
+                                  .itemDataList[int.parse(cartItemIndex[index])]
+                                  .imageUrl,
+                              description: itemData
+                                  .itemDataList[int.parse(cartItemIndex[index])]
+                                  .description,
+                              price: itemData
+                                  .itemDataList[int.parse(cartItemIndex[index])]
+                                  .price,
+                              quantity: quantities[cartItemIndex[index]] ?? 1,
+                              onQuantityChanged: (newQuantity) =>
+                                  updateQuantity(
+                                      cartItemIndex[index], newQuantity),
+                            ),
+                            Divider(),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -77,16 +137,18 @@ class _CartScreenState extends State<CartScreen> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    const SummaryRow(label: 'Subtotal', value: 15.97),
+                    SummaryRow(label: 'Subtotal', value: calculateSubtotal()),
                     const SummaryRow(label: 'Shipping', value: 2.00),
-                    const SummaryRow(label: 'Tax', value: 1.44),
+                    SummaryRow(label: 'Tax', value: calculateSubtotal() * 0.09),
                     const Divider(),
-                    const SummaryRow(
+                    SummaryRow(
                       label: 'Total',
-                      value: 19.41,
+                      value: calculateSubtotal() +
+                          2.00 +
+                          (calculateSubtotal() * 0.09),
                       isTotal: true,
                     ),
                     const SizedBox(height: 20),
@@ -120,8 +182,6 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 }
-
-
 
 class SummaryRow extends StatelessWidget {
   final String label;

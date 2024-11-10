@@ -139,4 +139,15 @@ class ItemData {
 
     // tea items
   ];
+
+  final Map<String, Map<String, dynamic>> items = {
+    // Your item data here
+    'item1': {
+      'image': 'path/to/image1',
+      'name': 'Item 1',
+      'description': 'Description 1',
+      'price': 9.99,
+    },
+    // Add more items as needed
+  };
 }

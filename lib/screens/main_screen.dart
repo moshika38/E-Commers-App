@@ -39,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
             displayName: user!.displayName ?? "Guest",
             id: user!.uid,
             photoURL: user!.photoURL ?? "",
+            
           );
           await UserServices().addUser(newUser);
           setState(() {

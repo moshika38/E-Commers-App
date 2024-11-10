@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
 
 class CartItem extends StatefulWidget {
@@ -7,14 +9,16 @@ class CartItem extends StatefulWidget {
   final String description;
   final double price;
   final int quantity;
+  final Function(int) onQuantityChanged;
 
-  const CartItem({
+  CartItem({
     super.key,
     required this.image,
     required this.name,
     required this.description,
     required this.price,
     required this.quantity,
+    required this.onQuantityChanged,
   });
 
   @override
@@ -34,6 +38,9 @@ class _CartItemState extends State<CartItem> {
     if (_quantity > 1) {
       setState(() {
         _quantity--;
+        widget.onQuantityChanged(_quantity);
+        // Update quantity in Firebase
+       
       });
     }
   }
@@ -42,6 +49,7 @@ class _CartItemState extends State<CartItem> {
     if (_quantity < 9) {
       setState(() {
         _quantity++;
+        widget.onQuantityChanged(_quantity);
       });
     }
   }
@@ -56,13 +64,13 @@ class _CartItemState extends State<CartItem> {
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
               widget.image,
-              width: 40 ,
-              height: 40 ,
+              width: 40,
+              height: 40,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
-                  width: 40 ,
-                  height: 40 ,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(8),
@@ -93,7 +101,9 @@ class _CartItemState extends State<CartItem> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  widget.description,
+                  widget.description.length > 25
+                      ? '${widget.description.substring(0, 25)}...'
+                      : widget.description,
                   style: const TextStyle(
                     fontSize: 14,
                     color: AppColors.secondaryText,

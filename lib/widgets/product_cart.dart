@@ -159,7 +159,14 @@ class ProductCardState extends State<ProductCard> {
                     IconButton(
                       icon:
                           const Icon(Icons.add, color: Colors.white, size: 20),
-                      onPressed: () {},
+                      onPressed: () {
+                        // add to cart
+                        UserServices().addToCart(
+                          FirebaseAuth.instance.currentUser!.uid,
+                          widget.index.toString(),
+                          1,
+                        );
+                      },
                       style: IconButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         padding: const EdgeInsets.all(8),

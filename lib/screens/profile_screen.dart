@@ -18,7 +18,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   UserModel? userModel;
-  String displayName = '';
+  String displayName = "Guest";
   String profileImage = "";
   String userEmail = "";
 
@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ? userModel!.displayName!
                 : 'Guest';
             profileImage = userModel?.photoURL ?? "";
-            userEmail = currentUser.email ?? "";
+            userEmail = currentUser.email.toString();
           });
         }
       });
@@ -108,13 +108,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            // TODO: Implementie picker functionality
                             if (userModel != null) {
                               UserDetails(
                                 uid: userModel!.id,
                                 context: context,
-                                nameController:
-                                    TextEditingController(text: displayName),
+                                nameController: TextEditingController(text: displayName),
                                 displayName: displayName,
                               ).showWindow();
                             }
@@ -139,7 +137,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Text(
-                  userEmail,
+                  FirebaseAuth.instance.currentUser!.email.toString(),
                   style: const TextStyle(
                     color: AppColors.primary,
                     fontSize: 14,

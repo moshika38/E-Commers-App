@@ -32,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadUserData() async {
     if (user != null) {
       userModel = await UserServices().getSingleUser(user!.uid);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
