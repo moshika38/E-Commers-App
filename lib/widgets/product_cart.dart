@@ -166,6 +166,12 @@ class ProductCardState extends State<ProductCard> {
                           widget.index.toString(),
                           1,
                         );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Added to cart'),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
                       },
                       style: IconButton.styleFrom(
                         backgroundColor: AppColors.primary,

@@ -90,99 +90,139 @@ class _CartScreenState extends State<CartScreen> {
                 ],
               ),
               const SizedBox(height: 30),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
+              if (cartItemIndex.isEmpty)
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.shopping_cart_outlined,
+                          size: 100,
+                          color: AppColors.bodyText.withOpacity(0.5),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Your cart is empty',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: AppColors.bodyText.withOpacity(0.5),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Add items to start shopping',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.bodyText.withOpacity(0.5),
+                          ),
+                        ),
+                      ],
                     ),
-                    padding: const EdgeInsets.all(20),
-                    child: GridView.builder(
-                      itemCount: cartItemIndex.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        childAspectRatio: 2,
+                  ),
+                )
+              else
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            CartItem(
-                              name: itemData
-                                  .itemDataList[int.parse(cartItemIndex[index])]
-                                  .name,
-                              image: itemData
-                                  .itemDataList[int.parse(cartItemIndex[index])]
-                                  .imageUrl,
-                              description: itemData
-                                  .itemDataList[int.parse(cartItemIndex[index])]
-                                  .description,
-                              price: itemData
-                                  .itemDataList[int.parse(cartItemIndex[index])]
-                                  .price,
-                              quantity: cartIQty[index],
-                              index: index,
-                              onQuantityChanged: (newQuantity) {
-                                setState(() {
-                                  cartIQty[index] = newQuantity;
-                                });
-                              },
-                            ),
-                            const Divider(),
-                          ],
-                        );
-                      },
+                      padding: const EdgeInsets.all(20),
+                      child: GridView.builder(
+                        itemCount: cartItemIndex.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 1,
+                          childAspectRatio: 2,
+                        ),
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              CartItem(
+                                name: itemData
+                                    .itemDataList[
+                                        int.parse(cartItemIndex[index])]
+                                    .name,
+                                image: itemData
+                                    .itemDataList[
+                                        int.parse(cartItemIndex[index])]
+                                    .imageUrl,
+                                description: itemData
+                                    .itemDataList[
+                                        int.parse(cartItemIndex[index])]
+                                    .description,
+                                price: itemData
+                                    .itemDataList[
+                                        int.parse(cartItemIndex[index])]
+                                    .price,
+                                quantity: cartIQty[index],
+                                index: index,
+                                onQuantityChanged: (newQuantity) {
+                                  setState(() {
+                                    cartIQty[index] = newQuantity;
+                                  });
+                                },
+                              ),
+                              const Divider(),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    SummaryRow(label: 'Subtotal', value: calculateSubtotal()),
-                    const SummaryRow(label: 'Shipping', value: 2.00),
-                    SummaryRow(label: 'Tax', value: calculateSubtotal() * 0.09),
-                    const Divider(),
-                    SummaryRow(
-                      label: 'Total',
-                      value: calculateSubtotal() +
-                          2.00 +
-                          (calculateSubtotal() * 0.09),
-                      isTotal: true,
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          padding: const EdgeInsets.all(15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+              if (cartItemIndex.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      SummaryRow(label: 'Subtotal', value: calculateSubtotal()),
+                      const SummaryRow(label: 'Shipping', value: 2.00),
+                      SummaryRow(
+                          label: 'Tax', value: calculateSubtotal() * 0.09),
+                      const Divider(),
+                      SummaryRow(
+                        label: 'Total',
+                        value: calculateSubtotal() +
+                            2.00 +
+                            (calculateSubtotal() * 0.09),
+                        isTotal: true,
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            padding: const EdgeInsets.all(15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          'Proceed to Checkout',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
+                          child: const Text(
+                            'Proceed to Checkout',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ),

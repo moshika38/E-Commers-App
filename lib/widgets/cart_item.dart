@@ -41,9 +41,9 @@ class _CartItemState extends State<CartItem> {
       setState(() {
         _quantity--;
       });
-      
+
       widget.onQuantityChanged(_quantity);
-      if (_quantity!=0) {
+      if (_quantity != 0) {
         UserServices().updateCartItemQty(
           FirebaseAuth.instance.currentUser!.uid,
           widget.index,
@@ -53,6 +53,12 @@ class _CartItemState extends State<CartItem> {
         UserServices().removeCartItem(
           FirebaseAuth.instance.currentUser!.uid,
           widget.index,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Item removed from cart'),
+            duration: Duration(seconds: 2),
+          ),
         );
       }
     }
