@@ -69,7 +69,6 @@ class UserServices {
     await collection.doc(userId).update({
       'favorites': FieldValue.arrayRemove([itemId])
     });
-    
   }
 
   // Get user's favorites
@@ -100,18 +99,19 @@ class UserServices {
   // card
 
   // Cart collection reference
-  final CollectionReference cartCollection = FirebaseFirestore.instance.collection('carts');
+  final CollectionReference cartCollection =
+      FirebaseFirestore.instance.collection('carts');
 
   // Add to cart list
-  Future<void> addToCart(String userId, String itemId, int uid) async {
+  Future<void> addToCart(String userId, String itemId, int quantity) async {
     DocumentSnapshot cartDoc = await cartCollection.doc(userId).get();
-    
+
     if (!cartDoc.exists) {
       // Create new cart document if it doesn't exist
       CartModel newCart = CartModel(
         id: userId,
         uid: userId,
-        qty: uid,
+        qty: [quantity], // Initialize with list containing quantity
         cartItem: [itemId],
       );
       await cartCollection.doc(userId).set(newCart.toMap());
@@ -119,24 +119,31 @@ class UserServices {
       // Add to existing cart
       CartModel existingCart = CartModel.fromDocument(cartDoc);
       List<String> currentItems = existingCart.cartItem;
+      List<int> currentQty = existingCart.qty;
+
       if (!currentItems.contains(itemId)) {
         currentItems.add(itemId);
-        await cartCollection.doc(userId).update({
-          'cartItem': currentItems,
-          'qty': (existingCart.qty ?? 0) + 1
-        });
+        currentQty.add(quantity);
+        await cartCollection
+            .doc(userId)
+            .update({'cartItem': currentItems, 'qty': currentQty});
       }
     }
   }
 
   // Update cart item quantity
-  Future<void> updateCartItemQuantity(String userId, String itemName, int newQuantity) async {
+  Future<void> updateCartItemQuantity(
+      String userId, String itemId, int newQuantity) async {
     try {
       DocumentSnapshot cartDoc = await cartCollection.doc(userId).get();
       if (cartDoc.exists) {
-        await cartCollection.doc(userId).update({
-          'qty': newQuantity
-        });
+        CartModel cart = CartModel.fromDocument(cartDoc);
+        int index = cart.cartItem.indexOf(itemId);
+        if (index != -1) {
+          List<int> updatedQty = List.from(cart.qty);
+          updatedQty[index] = newQuantity;
+          await cartCollection.doc(userId).update({'qty': updatedQty});
+        }
       }
     } catch (e) {
       print('Error updating cart item quantity: $e');
@@ -148,13 +155,13 @@ class UserServices {
     DocumentSnapshot cartDoc = await cartCollection.doc(userId).get();
     if (cartDoc.exists) {
       CartModel cart = CartModel.fromDocument(cartDoc);
-      List<String> currentItems = cart.cartItem;
-      if (currentItems.contains(itemId)) {
-        currentItems.remove(itemId);
-        await cartCollection.doc(userId).update({
-          'cartItem': currentItems,
-          'qty': (cart.qty ?? 1) > 0 ? (cart.qty ?? 1) - 1 : 0
-        });
+      int index = cart.cartItem.indexOf(itemId);
+      if (index != -1) {
+        List<String> updatedItems = List.from(cart.cartItem)..removeAt(index);
+        List<int> updatedQty = List.from(cart.qty)..removeAt(index);
+        await cartCollection
+            .doc(userId)
+            .update({'cartItem': updatedItems, 'qty': updatedQty});
       }
     }
   }
@@ -173,7 +180,7 @@ class UserServices {
     }
   }
 
-  // Check if item is in user's cart 
+  // Check if item is in user's cart
   Future<bool> isItemInCart(String userId, String itemId) async {
     try {
       DocumentSnapshot doc = await cartCollection.doc(userId).get();
@@ -185,6 +192,38 @@ class UserServices {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<List<int>> getCartQuantities(String uid) async {
+    try {
+      DocumentSnapshot doc = await cartCollection.doc(uid).get();
+      if (doc.exists) {
+        CartModel cart = CartModel.fromDocument(doc);
+        return cart.qty;
+      }
+      return [];
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<void> updateCartItemQty(String uid, int index, int newQty) async {
+    try {
+      DocumentSnapshot doc = await cartCollection.doc(uid).get();
+      if (doc.exists) {
+        CartModel cart = CartModel.fromDocument(doc);
+        List<int> updatedQty = List<int>.from(cart.qty);
+
+        if (index >= 0 && index < updatedQty.length) {
+          updatedQty[index] = newQty;
+
+          await cartCollection.doc(uid).update({'qty': updatedQty});
+        }
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }

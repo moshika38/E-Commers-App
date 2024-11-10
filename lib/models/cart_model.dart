@@ -3,11 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CartModel {
   final String id;
   final String uid;
-  final int? qty;  
-
+  final List<int> qty;  
   final List<String> cartItem;
   CartModel({
-      this.qty,
+    required this.qty,
     required this.id,
     required this.uid,
     required this.cartItem,
@@ -26,7 +25,7 @@ class CartModel {
     return CartModel(
       id: doc.id,
       uid: doc['uid'],
-      qty: doc['qty'],
+      qty: List<int>.from(doc['qty']),
       cartItem: List<String>.from(doc['cartItem']),
     );
   }
@@ -35,7 +34,7 @@ class CartModel {
     return CartModel(
       id: map['id'],
       uid: map['uid'],
-      qty: map['qty'],
+      qty: List<int>.from(map['qty']),
       cartItem: List<String>.from(map['cartItem']),
     );
   }

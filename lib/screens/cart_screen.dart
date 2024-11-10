@@ -14,6 +14,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   List<String> cartItemIndex = [];
+  List<int> cartIQty = [];
   final ItemData itemData = ItemData();
   Map<String, int> quantities = {};
 
@@ -21,6 +22,16 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     getUserCart();
+    getCartQuantities();
+  }
+
+  void getCartQuantities() async {
+    final quantities = await UserServices().getCartQuantities(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    setState(() {
+      cartIQty = quantities;
+    });
   }
 
   void getUserCart() async {
@@ -28,7 +39,7 @@ class _CartScreenState extends State<CartScreen> {
       final cartModel = await UserServices().getUserCart(
         FirebaseAuth.instance.currentUser!.uid,
       );
-      
+
       setState(() {
         cartItemIndex = cartModel?.cartItem ?? [];
         for (var item in cartItemIndex) {
@@ -48,12 +59,6 @@ class _CartScreenState extends State<CartScreen> {
           (quantities[index] ?? 1);
     }
     return subtotal;
-  }
-
-  void updateQuantity(String itemIndex, int newQuantity) {
-    setState(() {
-      quantities[itemIndex] = newQuantity;
-    });
   }
 
   @override
@@ -118,12 +123,10 @@ class _CartScreenState extends State<CartScreen> {
                               price: itemData
                                   .itemDataList[int.parse(cartItemIndex[index])]
                                   .price,
-                              quantity: quantities[cartItemIndex[index]] ?? 1,
-                              onQuantityChanged: (newQuantity) =>
-                                  updateQuantity(
-                                      cartItemIndex[index], newQuantity),
+                              quantity: cartIQty[index],
+                              index: index,
                             ),
-                            Divider(),
+                            const Divider(),
                           ],
                         );
                       },

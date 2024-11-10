@@ -9,7 +9,7 @@ class CartItem extends StatefulWidget {
   final String description;
   final double price;
   final int quantity;
-  final Function(int) onQuantityChanged;
+  final int index;
 
   CartItem({
     super.key,
@@ -18,7 +18,7 @@ class CartItem extends StatefulWidget {
     required this.description,
     required this.price,
     required this.quantity,
-    required this.onQuantityChanged,
+    required this.index,
   });
 
   @override
@@ -38,9 +38,6 @@ class _CartItemState extends State<CartItem> {
     if (_quantity > 1) {
       setState(() {
         _quantity--;
-        widget.onQuantityChanged(_quantity);
-        // Update quantity in Firebase
-       
       });
     }
   }
@@ -49,8 +46,12 @@ class _CartItemState extends State<CartItem> {
     if (_quantity < 9) {
       setState(() {
         _quantity++;
-        widget.onQuantityChanged(_quantity);
       });
+      UserServices().updateCartItemQty(
+        FirebaseAuth.instance.currentUser!.uid,
+        widget.index,
+        _quantity,
+      );
     }
   }
 
