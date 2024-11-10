@@ -54,9 +54,9 @@ class _CartScreenState extends State<CartScreen> {
 
   double calculateSubtotal() {
     double subtotal = 0;
-    for (var index in cartItemIndex) {
-      subtotal += itemData.itemDataList[int.parse(index)].price *
-          (quantities[index] ?? 1);
+    for (int i = 0; i < cartItemIndex.length; i++) {
+      String index = cartItemIndex[i];
+      subtotal += itemData.itemDataList[int.parse(index)].price * cartIQty[i];
     }
     return subtotal;
   }
@@ -125,6 +125,11 @@ class _CartScreenState extends State<CartScreen> {
                                   .price,
                               quantity: cartIQty[index],
                               index: index,
+                              onQuantityChanged: (newQuantity) {
+                                setState(() {
+                                  cartIQty[index] = newQuantity;
+                                });
+                              },
                             ),
                             const Divider(),
                           ],
