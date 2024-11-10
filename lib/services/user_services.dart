@@ -47,6 +47,9 @@ class UserServices {
     });
   }
 
+  // Remove from favorites list by name
+ 
+
   // Get user's favorites
   Future<List<String>> getUserFavorites(String userId) async {
     DocumentSnapshot doc = await collection.doc(userId).get();

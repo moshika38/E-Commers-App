@@ -25,7 +25,6 @@ class _MainScreenState extends State<MainScreen> {
   UserModel? userModel;
   User? user;
 
-  // if user is new then create user data else get user data from firebase
   void createUserProfile() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
@@ -34,22 +33,36 @@ class _MainScreenState extends State<MainScreen> {
       try {
         final userDoc = await UserServices().getSingleUser(user!.uid);
         if (userDoc == null) {
-          // Only create new user if they don't exist in Firestore
+          // Create new user profile for first-time users
           final newUser = UserModel(
             displayName: user!.displayName ?? "Guest",
             id: user!.uid,
             photoURL: user!.photoURL ?? "",
-            
           );
           await UserServices().addUser(newUser);
           setState(() {
             userModel = newUser;
           });
         } else {
-          // User exists, just load their data
-          setState(() {
-            userModel = UserModel.fromMap(userDoc as Map<String, dynamic>);
-          });
+          // For existing users, update their details if they've changed
+          final existingUser = UserModel.fromMap(userDoc as Map<String, dynamic>);
+          if (existingUser.displayName != user!.displayName || 
+              existingUser.photoURL != user!.photoURL) {
+            final updatedUser = UserModel(
+              displayName: user!.displayName ?? existingUser.displayName,
+              id: user!.uid,
+              photoURL: user!.photoURL ?? existingUser.photoURL,
+            );
+            await UserServices().addUser(updatedUser);
+            setState(() {
+              userModel = updatedUser;
+            });
+          } else {
+            // No changes needed, just load existing data
+            setState(() {
+              userModel = existingUser;
+            });
+          }
         }
       } catch (e) {
         print('Error creating/fetching user profile: $e');

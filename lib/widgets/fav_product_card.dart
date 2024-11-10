@@ -4,15 +4,16 @@ import 'package:flutter_application_1/data/item_data.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
 import 'package:flutter_application_1/services/user_services.dart';
 
-class ProductCard extends StatefulWidget {
+class FavProductCard extends StatefulWidget {
   final String name;
   final String description;
   final double price;
   final String imageUrl;
   final int index;
   final String uid;
+  final String itemId;
 
-  const ProductCard({
+  const FavProductCard({
     super.key,
     required this.name,
     required this.description,
@@ -20,33 +21,16 @@ class ProductCard extends StatefulWidget {
     required this.imageUrl,
     required this.index,
     required this.uid,
+    required this.itemId,
   });
 
   @override
-  State<ProductCard> createState() => ProductCardState();
+  State<FavProductCard> createState() => FavProductCardState();
 }
 
-class ProductCardState extends State<ProductCard> {
-  bool isFavorite = false;
+class FavProductCardState extends State<FavProductCard> {
+  bool isFavorite = true;
   final TextEditingController nameController = TextEditingController();
-
-  Future isItemFavoriteOrNot(int index) async {
-    bool isFav = await UserServices().isItemFavorite(
-      FirebaseAuth.instance.currentUser!.uid,
-      index.toString(),
-    );
-    if (mounted) {
-      setState(() {
-        isFavorite = isFav;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    isItemFavoriteOrNot(widget.index);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,17 +77,10 @@ class ProductCardState extends State<ProductCard> {
                       setState(() {
                         isFavorite = !isFavorite;
                       });
-                      if (isFavorite) {
-                        UserServices().addToFavorites(
-                          FirebaseAuth.instance.currentUser!.uid,
-                          widget.index.toString(),
-                        );
-                      } else {
-                        UserServices().removeFromFavorites(
-                          FirebaseAuth.instance.currentUser!.uid,
-                          widget.index.toString(),
-                        );
-                      }
+                      UserServices().removeFromFavorites(
+                        FirebaseAuth.instance.currentUser!.uid,
+                        widget.itemId,
+                      );
                     },
                     style: IconButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -147,32 +124,11 @@ class ProductCardState extends State<ProductCard> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                const SizedBox(height: 5),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('\$${widget.price}'),
-                    IconButton(
-                      icon:
-                          const Icon(Icons.add, color: Colors.white, size: 20),
-                      onPressed: () {
-                        // add to cart
-                        UserServices().addToCart(
-                          FirebaseAuth.instance.currentUser!.uid,
-                          widget.index.toString(),
-                          1,
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Added to cart'),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      },
-                      style: IconButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        padding: const EdgeInsets.all(8),
-                      ),
-                    ),
                   ],
                 ),
               ],

@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/item_data.dart';
 import 'package:flutter_application_1/services/user_services.dart';
+import 'package:flutter_application_1/widgets/fav_product_card.dart';
 import '../utils/app_colors.dart';
-import '../widgets/product_cart.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -92,13 +92,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 0.65,
+                            childAspectRatio: 0.75,
                             mainAxisSpacing: 16,
                             crossAxisSpacing: 16,
                           ),
                           itemBuilder: (context, index) {
-                            return ProductCard(
+                            return FavProductCard(
                               uid: FirebaseAuth.instance.currentUser!.uid,
+                              itemId: favItemIndex[index],
                               index: index,
                               name: itemData
                                   .itemDataList[int.parse(favItemIndex[index])]
