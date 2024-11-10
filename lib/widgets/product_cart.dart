@@ -8,6 +8,8 @@ class ProductCard extends StatefulWidget {
   final double price;
   final String imageUrl;
   final int index;
+ 
+
 
   const ProductCard({
     super.key,
@@ -16,6 +18,7 @@ class ProductCard extends StatefulWidget {
     required this.price,
     required this.imageUrl,
     required this.index,
+   
   });
 
   @override
@@ -103,7 +106,7 @@ class ProductCardState extends State<ProductCard> {
                               .reduce((a, b) => a > b ? a : b)
                               .toString() ??
                           '0',
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     ),
                   ],
                 ),

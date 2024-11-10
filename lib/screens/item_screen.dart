@@ -268,7 +268,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                     ?.length ??
                                 0,
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 1,
                               childAspectRatio: 3.5,
                               mainAxisSpacing: 16,
@@ -379,22 +379,22 @@ class ReviewCard extends StatelessWidget {
             children: [
               Text(
                 userEmail,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.headingText,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Spacer(),
-              Icon(
+              const Spacer(),
+              const Icon(
                 Icons.star,
                 color: Colors.amber,
                 size: 20,
               ),
-              SizedBox(width: 4),
+              const SizedBox(width: 4),
               Text(
                 rateValue.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppColors.bodyText,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -402,10 +402,10 @@ class ReviewCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             massage,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.bodyText,
               fontSize: 14,
               height: 1.5,

@@ -47,7 +47,7 @@ class UserServices {
             if (i == retryAttempts - 1) rethrow; // Rethrow on last attempt
             delayMs *= 2; // Exponential backoff
           }
-        }
+        } 
       }
       rethrow; // Rethrow other exceptions
     }
@@ -67,4 +67,7 @@ class UserServices {
   Future<void> deleteUser(String id) async {
     await collection.doc(id).delete();
   }
+
+    
+
 }

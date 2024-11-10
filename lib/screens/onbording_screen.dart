@@ -78,10 +78,10 @@ class OnboardingScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                           ),
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               'Sign In',
                               style: TextStyle(
                                 fontSize: 16,
@@ -89,8 +89,8 @@ class OnboardingScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            const Icon(Icons.arrow_forward,
+                            SizedBox(width: 8),
+                            Icon(Icons.arrow_forward,
                                 color: Colors.white),
                           ],
                         ),
