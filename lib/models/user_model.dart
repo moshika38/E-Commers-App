@@ -29,7 +29,6 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      
       'displayName': displayName,
       'photoURL': photoURL,
       'address': address?.toMap(),
@@ -40,18 +39,34 @@ class UserModel {
   }
 
   factory UserModel.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
     return UserModel(
       id: doc.id,
-      
-      displayName: doc['displayName'],
-      photoURL: doc['photoURL'],
-      address: doc['address'] != null ? AddressModel.fromDocument(doc['address']) : null,
-      payment: doc['payment'] != null ? PaymentModel.fromDocument(doc['payment']) : null,
-      favorites: doc['favorites'] != null
-          ? List<UserFavModel>.from(doc['favorites'].map((x) => UserFavModel.fromDocument(x)))
+      displayName: data['displayName'],
+      photoURL: data['photoURL'],
+      address: data['address'] != null ? AddressModel.fromDocument(data['address']) : null,
+      payment: data['payment'] != null ? PaymentModel.fromDocument(data['payment']) : null,
+      favorites: data['favorites'] != null
+          ? List<UserFavModel>.from(data['favorites'].map((x) => UserFavModel.fromDocument(x)))
           : null,
-      cartItem: doc['cartItem'] != null
-          ? List<CartModel>.from(doc['cartItem'].map((x) => CartModel.fromDocument(x)))
+      cartItem: data['cartItem'] != null
+          ? List<CartModel>.from(data['cartItem'].map((x) => CartModel.fromDocument(x)))
+          : null,
+    );
+  }
+
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      id: map['id'] ?? '',
+      displayName: map['displayName'] ?? '',
+      photoURL: map['photoURL'] ?? '',
+      address: map['address'] != null ? AddressModel.fromMap(map['address']) : null,
+      payment: map['payment'] != null ? PaymentModel.fromMap(map['payment']) : null,
+      favorites: map['favorites'] != null
+          ? List<UserFavModel>.from(map['favorites'].map((x) => UserFavModel.fromMap(x)))
+          : null,
+      cartItem: map['cartItem'] != null
+          ? List<CartModel>.from(map['cartItem'].map((x) => CartModel.fromMap(x)))
           : null,
     );
   }

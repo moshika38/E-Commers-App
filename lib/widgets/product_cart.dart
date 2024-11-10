@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/item_data.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 
 class ProductCard extends StatefulWidget {
   final String name;
@@ -8,8 +10,7 @@ class ProductCard extends StatefulWidget {
   final double price;
   final String imageUrl;
   final int index;
- 
-
+  final String uid;
 
   const ProductCard({
     super.key,
@@ -18,7 +19,7 @@ class ProductCard extends StatefulWidget {
     required this.price,
     required this.imageUrl,
     required this.index,
-   
+    required this.uid,
   });
 
   @override
@@ -27,6 +28,23 @@ class ProductCard extends StatefulWidget {
 
 class ProductCardState extends State<ProductCard> {
   bool isFavorite = false;
+  final TextEditingController nameController = TextEditingController();
+
+  Future isItemFavoriteOrNot(int index) async {
+    bool isFav = await UserServices().isItemFavorite(
+      FirebaseAuth.instance.currentUser!.uid,
+      index.toString(),
+    );
+    setState(() {
+      isFavorite = isFav;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isItemFavoriteOrNot(widget.index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +91,17 @@ class ProductCardState extends State<ProductCard> {
                       setState(() {
                         isFavorite = !isFavorite;
                       });
+                      if (isFavorite) {
+                        UserServices().addToFavorites(
+                          FirebaseAuth.instance.currentUser!.uid,
+                          widget.index.toString(),
+                        );
+                      } else {
+                        UserServices().removeFromFavorites(
+                          FirebaseAuth.instance.currentUser!.uid,
+                          widget.index.toString(),
+                        );
+                      }
                     },
                     style: IconButton.styleFrom(
                       backgroundColor: Colors.white,

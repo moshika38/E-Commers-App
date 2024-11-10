@@ -34,4 +34,14 @@ class AddressModel {
       zipCode: doc['zipCode'],
     );
   }
+
+  factory AddressModel.fromMap(Map<String, dynamic> map) {
+    return AddressModel(
+      id: map['id'] ?? '',
+      street: map['street'] ?? '',
+      city: map['city'] ?? '',
+      state: map['state'] ?? '',
+      zipCode: map['zipCode'] ?? '',
+    );
+  }
 }

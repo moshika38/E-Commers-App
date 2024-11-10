@@ -20,38 +20,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ItemData itemData = ItemData();
-
   UserModel? userModel;
-  User? user;
-
-  // if user is new then create user data else get user data from firebase
-  void createUserProfile() async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      user = currentUser;
-      setState(() {});
-      final userDoc = await UserServices().getSingleUser(user!.uid);
-      if (userDoc == null) {
-        await UserServices().addUser(
-          UserModel(
-            displayName: user!.displayName ?? "Guest",
-            id: user!.uid,
-            photoURL: user!.photoURL ?? "",
-          ),
-        );
-      }
-      UserServices().getSingleUser(currentUser.uid).then((value) {
-        setState(() {
-          userModel = value;
-        });
-      });
-    }
-  }
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
     super.initState();
-    createUserProfile();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    if (user != null) {
+      userModel = await UserServices().getSingleUser(user!.uid);
+      setState(() {});
+    }
   }
 
   @override
@@ -194,7 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: ProductCard(
-                       index: index,
+                      uid: user!.uid,
+                      index: index,
                       name: itemData.itemDataList[index].name,
                       description: itemData.itemDataList[index].description,
                       price: itemData.itemDataList[index].price,

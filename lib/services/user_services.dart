@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 
-
 class UserServices {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('user');
@@ -11,7 +10,7 @@ class UserServices {
     await collection.doc(user.id).set(user.toMap());
   }
 
-  // GET all data 
+  // GET all data
   Future<List<UserModel>> getAllUsers() async {
     QuerySnapshot querySnapshot = await collection.get();
     return querySnapshot.docs.map((doc) {
@@ -25,31 +24,11 @@ class UserServices {
       DocumentSnapshot doc = await collection.doc(id).get();
       if (doc.exists) {
         return UserModel.fromDocument(doc);
-      } else {
-        return null;
       }
+      return null;
     } catch (e) {
-      if (e is FirebaseException && e.code == 'unavailable') {
-        // Implement exponential backoff retry
-        int retryAttempts = 3;
-        int delayMs = 1000; // Start with 1 second delay
-        
-        for (int i = 0; i < retryAttempts; i++) {
-          try {
-            await Future.delayed(Duration(milliseconds: delayMs));
-            DocumentSnapshot doc = await collection.doc(id).get();
-            if (doc.exists) {
-              return UserModel.fromDocument(doc);
-            } else {
-              return null;
-            }
-          } catch (retryError) {
-            if (i == retryAttempts - 1) rethrow; // Rethrow on last attempt
-            delayMs *= 2; // Exponential backoff
-          }
-        } 
-      }
-      rethrow; // Rethrow other exceptions
+      print(e);
+    return null;
     }
   }
 
@@ -59,7 +38,14 @@ class UserServices {
   }
 
   // UPDATE specific fields
-  Future<void> updateUserFields(String userId, Map<String, dynamic> fields) async {
+  Future<void> updateUserFields(
+      String userId, Map<String, dynamic> fields) async {
+    await collection.doc(userId).update(fields);
+  }
+
+  // DELETE specific fields
+  Future<void> deleteUserFields(
+      String userId, Map<String, dynamic> fields) async {
     await collection.doc(userId).update(fields);
   }
 
@@ -68,6 +54,42 @@ class UserServices {
     await collection.doc(id).delete();
   }
 
-    
+  // Add to favorites list
+  Future<void> addToFavorites(String userId, String itemId) async {
+    await collection.doc(userId).update({
+      'favorites': FieldValue.arrayUnion([itemId])
+    });
+  }
 
+  // Remove from favorites list
+  Future<void> removeFromFavorites(String userId, String itemId) async {
+    await collection.doc(userId).update({
+      'favorites': FieldValue.arrayRemove([itemId])
+    });
+  }
+
+  // Get user's favorites
+  Future<List<String>> getUserFavorites(String userId) async {
+    DocumentSnapshot doc = await collection.doc(userId).get();
+    if (doc.exists) {
+      final data = doc.data() as Map<String, dynamic>;
+      return List<String>.from(data['favorites'] ?? []);
+    }
+    return [];
+  }
+
+  // Check if item is in user's favorites
+  Future<bool> isItemFavorite(String userId, String itemId) async {
+    try {
+      DocumentSnapshot doc = await collection.doc(userId).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        final favorites = List<String>.from(data['favorites'] ?? []);
+        return favorites.contains(itemId) ? true : false;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
 }

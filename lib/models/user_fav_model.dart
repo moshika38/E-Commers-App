@@ -26,4 +26,12 @@ class UserFavModel {
       favoriteIds: List<String>.from(doc['favoriteIds'] ?? []),
     );
   }
+
+  factory UserFavModel.fromMap(Map<String, dynamic> map) {
+    return UserFavModel(
+      id: map['id'],
+      email: map['email'],
+      favoriteIds: List<String>.from(map['favoriteIds'] ?? []),
+    );
+  }
 }

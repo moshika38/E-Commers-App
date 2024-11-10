@@ -30,4 +30,13 @@ class CartModel {
       datetime: doc['datetime'],
     );
   }
+
+  factory CartModel.fromMap(Map<String, dynamic> map) {
+    return CartModel(
+      id: map['id'],
+      invoice: map['invoice'],
+      coustomoer: map['coustomoer'],
+      datetime: map['datetime'],
+    );
+  }
 }

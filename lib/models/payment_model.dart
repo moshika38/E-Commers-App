@@ -30,4 +30,13 @@ class PaymentModel {
       cvv: doc['cvv'],
     );
   }
+
+  factory PaymentModel.fromMap(Map<String, dynamic> map) {
+    return PaymentModel(
+      id: map['id'],
+      cardNumber: map['cardNumber'],
+      expiryDate: map['expiryDate'],
+      cvv: map['cvv'],
+    );
+  }
 }
