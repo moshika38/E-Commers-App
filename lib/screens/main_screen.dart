@@ -11,15 +11,17 @@ import 'package:flutter_application_1/services/user_services.dart';
 import '../utils/app_colors.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int? loadScreen;
+  const MainScreen({
+    super.key,
+    this.loadScreen,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-
   UserModel? userModel;
   User? user;
 
@@ -53,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
       }
     }
   }
-  
+
   @override
   void initState() {
     super.initState();
@@ -61,6 +63,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   int currentIndex = 2;
+
   List<Widget> screens = [
     const ExploreScreen(),
     const CartScreen(),

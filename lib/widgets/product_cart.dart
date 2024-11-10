@@ -11,10 +11,9 @@ class ProductCard extends StatefulWidget {
   final String imageUrl;
   final int index;
   final String uid;
-
+  final bool? isFavScreen;
 
   const ProductCard({
-     
     super.key,
     required this.name,
     required this.description,
@@ -22,6 +21,7 @@ class ProductCard extends StatefulWidget {
     required this.imageUrl,
     required this.index,
     required this.uid,
+    this.isFavScreen,
   });
 
   @override
@@ -37,9 +37,11 @@ class ProductCardState extends State<ProductCard> {
       FirebaseAuth.instance.currentUser!.uid,
       index.toString(),
     );
-    setState(() {
-      isFavorite = isFav;
-    });
+    if (mounted) {
+      setState(() {
+        isFavorite = isFav;
+      });
+    }
   }
 
   @override
@@ -103,6 +105,9 @@ class ProductCardState extends State<ProductCard> {
                           FirebaseAuth.instance.currentUser!.uid,
                           widget.index.toString(),
                         );
+                        if (widget.isFavScreen == true) {
+                          Navigator.pop(context);
+                        }
                       }
                     },
                     style: IconButton.styleFrom(
