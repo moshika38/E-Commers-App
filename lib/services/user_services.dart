@@ -11,14 +11,6 @@ class UserServices {
     await collection.doc(user.id).set(user.toMap());
   }
 
-  // GET all data
-  Future<List<UserModel>> getAllUsers() async {
-    QuerySnapshot querySnapshot = await collection.get();
-    return querySnapshot.docs.map((doc) {
-      return UserModel.fromDocument(doc);
-    }).toList();
-  }
-
   // GET single data
   Future<UserModel?> getSingleUser(String id) async {
     try {
@@ -33,26 +25,10 @@ class UserServices {
     }
   }
 
-  // UPDATE user
-  Future<void> updateUser(UserModel user) async {
-    await collection.doc(user.id).update(user.toMap());
-  }
-
   // UPDATE specific fields
   Future<void> updateUserFields(
       String userId, Map<String, dynamic> fields) async {
     await collection.doc(userId).update(fields);
-  }
-
-  // DELETE specific fields
-  Future<void> deleteUserFields(
-      String userId, Map<String, dynamic> fields) async {
-    await collection.doc(userId).update(fields);
-  }
-
-  // DELETE user
-  Future<void> deleteUser(String id) async {
-    await collection.doc(id).delete();
   }
 
   // favorites
@@ -96,7 +72,7 @@ class UserServices {
     }
   }
 
-  // card
+  // cart
 
   // Cart collection reference
   final CollectionReference cartCollection =
@@ -127,41 +103,6 @@ class UserServices {
         await cartCollection
             .doc(userId)
             .update({'cartItem': currentItems, 'qty': currentQty});
-      }
-    }
-  }
-
-  // Update cart item quantity
-  Future<void> updateCartItemQuantity(
-      String userId, String itemId, int newQuantity) async {
-    try {
-      DocumentSnapshot cartDoc = await cartCollection.doc(userId).get();
-      if (cartDoc.exists) {
-        CartModel cart = CartModel.fromDocument(cartDoc);
-        int index = cart.cartItem.indexOf(itemId);
-        if (index != -1) {
-          List<int> updatedQty = List.from(cart.qty);
-          updatedQty[index] = newQuantity;
-          await cartCollection.doc(userId).update({'qty': updatedQty});
-        }
-      }
-    } catch (e) {
-      print('Error updating cart item quantity: $e');
-    }
-  }
-
-  // Remove from cart list
-  Future<void> removeFromCart(String userId, String itemId) async {
-    DocumentSnapshot cartDoc = await cartCollection.doc(userId).get();
-    if (cartDoc.exists) {
-      CartModel cart = CartModel.fromDocument(cartDoc);
-      int index = cart.cartItem.indexOf(itemId);
-      if (index != -1) {
-        List<String> updatedItems = List.from(cart.cartItem)..removeAt(index);
-        List<int> updatedQty = List.from(cart.qty)..removeAt(index);
-        await cartCollection
-            .doc(userId)
-            .update({'cartItem': updatedItems, 'qty': updatedQty});
       }
     }
   }
