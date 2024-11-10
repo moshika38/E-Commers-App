@@ -37,16 +37,24 @@ class _CartItemState extends State<CartItem> {
   }
 
   void _decrementQuantity() {
-    if (_quantity > 1) {
+    if (_quantity > 0) {
       setState(() {
         _quantity--;
       });
-      UserServices().updateCartItemQty(
-        FirebaseAuth.instance.currentUser!.uid,
-        widget.index,
-        _quantity,
-      );
+      
       widget.onQuantityChanged(_quantity);
+      if (_quantity!=0) {
+        UserServices().updateCartItemQty(
+          FirebaseAuth.instance.currentUser!.uid,
+          widget.index,
+          _quantity,
+        );
+      } else {
+        UserServices().removeCartItem(
+          FirebaseAuth.instance.currentUser!.uid,
+          widget.index,
+        );
+      }
     }
   }
 

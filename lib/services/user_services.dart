@@ -226,4 +226,27 @@ class UserServices {
       print(e);
     }
   }
+
+  Future<void> removeCartItem(String uid, int index) async {
+    try {
+      DocumentSnapshot doc = await cartCollection.doc(uid).get();
+      if (doc.exists) {
+        CartModel cart = CartModel.fromDocument(doc);
+        List<String> updatedCartItems = List<String>.from(cart.cartItem);
+        List<int> updatedQty = List<int>.from(cart.qty);
+
+        if (index >= 0 && index < updatedCartItems.length) {
+          updatedCartItems.removeAt(index);
+          updatedQty.removeAt(index);
+
+          await cartCollection.doc(uid).update({
+            'cartItem': updatedCartItems,
+            'qty': updatedQty,
+          });
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 }
