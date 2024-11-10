@@ -12,7 +12,9 @@ class ProductCard extends StatefulWidget {
   final int index;
   final String uid;
 
+
   const ProductCard({
+     
     super.key,
     required this.name,
     required this.description,

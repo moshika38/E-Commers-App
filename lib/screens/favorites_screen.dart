@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/item_data.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import '../utils/app_colors.dart';
 import '../widgets/product_cart.dart';
 
@@ -10,6 +13,23 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
+  List<String> favItemIndex = [];
+  final ItemData itemData = ItemData();
+
+  void getFavItems() async {
+    final items = await UserServices()
+        .getUserFavorites(FirebaseAuth.instance.currentUser!.uid);
+    setState(() {
+      favItemIndex = items;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getFavItems();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +37,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: SafeArea(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 1200),
-          margin: const EdgeInsets.symmetric(horizontal: 20),
+          margin: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +54,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       ),
                     ),
                     Text(
-                      '(6 items)',
+                      '(${favItemIndex.length} items)',
                       style: TextStyle(
                         color: AppColors.bodyText,
                       ),
@@ -43,30 +63,59 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 ),
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 6,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.65,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                    ),
-                    itemBuilder: (context, index) {
-                      return ProductCard(
-                        uid: "",
-                        index: index,
-                        name: 'Cappuccino',
-                        description: 'With Oat Milk',
-                        price: 4.99,
-                        imageUrl: 'assets/icons/coffee-logo.png',
-                      );
-                    },
-                  ),
-                ),
+                child: favItemIndex.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.favorite_border,
+                              size: 64,
+                              color: AppColors.bodyText.withOpacity(0.5),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'No favorite items added yet',
+                              style: TextStyle(
+                                color: AppColors.bodyText.withOpacity(0.5),
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : SingleChildScrollView(
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: favItemIndex.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.65,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                          ),
+                          itemBuilder: (context, index) {
+                            return ProductCard(
+                              uid: FirebaseAuth.instance.currentUser!.uid,
+                              index: index,
+                              name: itemData
+                                  .itemDataList[int.parse(favItemIndex[index])]
+                                  .name,
+                              description: itemData
+                                  .itemDataList[int.parse(favItemIndex[index])]
+                                  .description,
+                              price: itemData
+                                  .itemDataList[int.parse(favItemIndex[index])]
+                                  .price,
+                              imageUrl: itemData
+                                  .itemDataList[int.parse(favItemIndex[index])]
+                                  .imageUrl,
+                            );
+                          },
+                        ),
+                      ),
               ),
             ],
           ),
