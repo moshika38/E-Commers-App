@@ -178,7 +178,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     child: ProductCard(
-                     
                       uid: user!.uid,
                       index: index,
                       name: itemData.itemDataList[index].name,

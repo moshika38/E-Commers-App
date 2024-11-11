@@ -27,8 +27,8 @@ class ProductCard extends StatefulWidget {
 }
 
 class ProductCardState extends State<ProductCard> {
-  bool isFavorite = false;
   final TextEditingController nameController = TextEditingController();
+  bool isFavorite = false;
 
   Future isItemFavoriteOrNot(int index) async {
     bool isFav = await UserServices().isItemFavorite(

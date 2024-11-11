@@ -10,10 +10,12 @@ class CartItem extends StatefulWidget {
   final String description;
   final double price;
   final int quantity;
+  final String itemId;
   final int index;
   final Function(int) onQuantityChanged;
 
   const CartItem({
+    required this.itemId,
     super.key,
     required this.image,
     required this.name,

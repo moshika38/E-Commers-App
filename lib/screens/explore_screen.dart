@@ -85,17 +85,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           },
                         ),
                         CategoryTab(
-                          text: 'Hot Coffee',
-                          isActive: selectedCategory == 'Hot Coffee',
-                          onCategorySelected: (category) {
-                            setState(() {
-                              selectedCategory = category;
-                            });
-                          },
-                        ),
-                        CategoryTab(
-                          text: 'Iced Coffee',
-                          isActive: selectedCategory == 'Iced Coffee',
+                          text: 'Coffee',
+                          isActive: selectedCategory == 'Coffee',
                           onCategorySelected: (category) {
                             setState(() {
                               selectedCategory = category;
@@ -105,6 +96,24 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         CategoryTab(
                           text: 'Tea',
                           isActive: selectedCategory == 'Tea',
+                          onCategorySelected: (category) {
+                            setState(() {
+                              selectedCategory = category;
+                            });
+                          },
+                        ),
+                        CategoryTab(
+                          text: 'Pastries',
+                          isActive: selectedCategory == 'Pastries',
+                          onCategorySelected: (category) {
+                            setState(() {
+                              selectedCategory = category;
+                            });
+                          },
+                        ),
+                        CategoryTab(
+                          text: 'Desserts',
+                          isActive: selectedCategory == 'Desserts',
                           onCategorySelected: (category) {
                             setState(() {
                               selectedCategory = category;

@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/item_data.dart';
+import 'package:flutter_application_1/screens/main_screen.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import '../utils/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -25,8 +28,27 @@ class ItemScreen extends StatefulWidget {
 
 class _ItemScreenState extends State<ItemScreen> {
   int quantity = 1;
-
   final PageController _pageController = PageController();
+  bool isLoading = false;
+  bool isFavorite = false;
+
+  Future isItemFavoriteOrNot(int index) async {
+    bool isFav = await UserServices().isItemFavorite(
+      FirebaseAuth.instance.currentUser!.uid,
+      index.toString(),
+    );
+    if (mounted) {
+      setState(() {
+        isFavorite = isFav;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isItemFavoriteOrNot(int.parse(widget.index));
+  }
 
   void _incrementQuantity() {
     setState(() {
@@ -116,7 +138,15 @@ class _ItemScreenState extends State<ItemScreen> {
                           top: 16,
                           left: 16,
                           child: IconButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const MainScreen(loadScreen: 2),
+                                ),
+                              );
+                            },
                             icon: const Icon(Icons.arrow_back),
                             style: IconButton.styleFrom(
                               backgroundColor: Colors.white,
@@ -128,8 +158,28 @@ class _ItemScreenState extends State<ItemScreen> {
                           top: 16,
                           right: 16,
                           child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.favorite_border),
+                            onPressed: () {
+                              setState(() {
+                                isFavorite = !isFavorite;
+                              });
+                              if (isFavorite) {
+                                UserServices().addToFavorites(
+                                  FirebaseAuth.instance.currentUser!.uid,
+                                  widget.index.toString(),
+                                );
+                              } else {
+                                UserServices().removeFromFavorites(
+                                  FirebaseAuth.instance.currentUser!.uid,
+                                  widget.index.toString(),
+                                );
+                              }
+                            },
+                            icon: isFavorite
+                                ? Icon(
+                                    Icons.favorite,
+                                    color: AppColors.error,
+                                  )
+                                : Icon(Icons.favorite_border),
                             style: IconButton.styleFrom(
                               backgroundColor: Colors.white,
                               foregroundColor: AppColors.primary,
@@ -326,7 +376,23 @@ class _ItemScreenState extends State<ItemScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+
+                            await UserServices().addToCart(
+                              FirebaseAuth.instance.currentUser!.uid,
+                              widget.index.toString(),
+                              quantity,
+                            );
+
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
@@ -335,13 +401,22 @@ class _ItemScreenState extends State<ItemScreen> {
                         vertical: 16,
                       ),
                     ),
-                    child: const Text(
-                      'Add to Cart',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    child: isLoading
+                        ? SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Text(
+                            'Add to Cart',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                   ),
                 ],
               ),

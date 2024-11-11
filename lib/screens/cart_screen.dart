@@ -161,7 +161,8 @@ class _CartScreenState extends State<CartScreen> {
                                         int.parse(cartItemIndex[index])]
                                     .price,
                                 quantity: cartIQty[index],
-                                index: index,
+                                index:index,
+                                itemId:  cartItemIndex[index],
                                 onQuantityChanged: (newQuantity) {
                                   setState(() {
                                     cartIQty[index] = newQuantity;

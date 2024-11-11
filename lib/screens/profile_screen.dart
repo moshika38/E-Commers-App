@@ -1,6 +1,7 @@
 import 'package:flutter_application_1/models/address_model.dart';
 import 'package:flutter_application_1/models/payment_model.dart';
 import 'package:flutter_application_1/screens/help_center.dart';
+import 'package:flutter_application_1/screens/notification_sereen.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/logout.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/payment.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/user_details.dart';
@@ -184,7 +185,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 _buildProfileOption(
                   icon: Icons.notifications_outlined,
                   title: 'Notifications',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NotificationScreen(),
+                      ),
+                    );
+                  },
                 ),
                 _buildProfileOption(
                   icon: Icons.help_outline,
