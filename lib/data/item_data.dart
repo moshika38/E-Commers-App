@@ -137,7 +137,87 @@ class ItemData {
       ],
     ),
 
+
+
+
     // tea items
+    ItemModel(
+      id: "8",
+      name: "Green Tea",
+      description: "Classic Japanese green tea with a delicate, earthy flavor",
+      price: 4.5,
+      imageUrl: "assets/images/green_tea.jpg", 
+      type: "Tea",
+      rating: [
+        RatingModel(
+          rating: 4.6,
+          massage: "So refreshing and calming",
+          user: "emma.wilson@email.com",
+          itemName: "Green Tea",
+        ),
+        RatingModel(
+          rating: 4.8,
+          massage: "Perfect authentic taste",
+          user: "david.chen@email.com", 
+          itemName: "Green Tea",
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "9", 
+      name: "Earl Grey",
+      description: "Black tea flavored with oil of bergamot",
+      price: 4.0,
+      imageUrl: "assets/images/earl_grey.jpg",
+      type: "Tea",
+      rating: [
+        RatingModel(
+          rating: 4.7,
+          massage: "Love the bergamot aroma",
+          user: "sophia.brown@email.com",
+          itemName: "Earl Grey",
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "10",
+      name: "Chamomile Tea",
+      description: "Caffeine-free herbal tea with calming properties",
+      price: 4.0,
+      imageUrl: "assets/images/chamomile.jpg",
+      type: "Tea", 
+      rating: [
+        RatingModel(
+          rating: 4.5,
+          massage: "Perfect before bedtime",
+          user: "michael.jones@email.com",
+          itemName: "Chamomile Tea",
+        ),
+        RatingModel(
+          rating: 4.6,
+          massage: "Very soothing and relaxing",
+          user: "olivia.smith@email.com",
+          itemName: "Chamomile Tea",
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "11",
+      name: "English Breakfast",
+      description: "Traditional blend of black teas",
+      price: 4.5,
+      imageUrl: "assets/images/english_breakfast.jpg",
+      type: "Tea",
+      rating: [
+        RatingModel(
+          rating: 4.8,
+          massage: "Strong and perfect with milk",
+          user: "james.wilson@email.com",
+          itemName: "English Breakfast",
+        ),
+      ],
+    )
+
   ];
 
   final Map<String, Map<String, dynamic>> items = {

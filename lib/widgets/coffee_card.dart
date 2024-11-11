@@ -1,7 +1,8 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
- 
+
 class CoffeeCard extends StatefulWidget {
   final String title;
   final String description;
@@ -9,6 +10,7 @@ class CoffeeCard extends StatefulWidget {
   final double price;
   final double rating;
   final int reviews;
+  final int index;
 
   const CoffeeCard({
     super.key,
@@ -18,6 +20,7 @@ class CoffeeCard extends StatefulWidget {
     required this.price,
     required this.rating,
     required this.reviews,
+    required this.index,
   });
 
   @override
@@ -26,6 +29,24 @@ class CoffeeCard extends StatefulWidget {
 
 class _CoffeeCardState extends State<CoffeeCard> {
   bool isFavorite = false;
+
+  Future isItemFavoriteOrNot(int index) async {
+    bool isFav = await UserServices().isItemFavorite(
+      FirebaseAuth.instance.currentUser!.uid,
+      index.toString(),
+    );
+    if (mounted) {
+      setState(() {
+        isFavorite = isFav;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    isItemFavoriteOrNot(widget.index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +59,8 @@ class _CoffeeCardState extends State<CoffeeCard> {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(12)),
                 child: Image.asset(
                   widget.imagePath,
                   height: 160,

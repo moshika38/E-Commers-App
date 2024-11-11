@@ -87,341 +87,352 @@ class _ItemScreenState extends State<ItemScreen> {
     ];
 
     // scaffold
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        SizedBox(
-                          height: 300,
-                          child: PageView.builder(
-                            controller: _pageController,
-                            itemCount: images.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary.withOpacity(0.1),
-                                ),
-                                child: Image.asset(
-                                  images[index],
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 16,
-                          left: 0,
-                          right: 0,
-                          child: Center(
-                            child: SmoothPageIndicator(
-                              controller: _pageController,
-                              count: images.length,
-                              effect: WormEffect(
-                                dotColor: Colors.grey.shade400,
-                                activeDotColor: AppColors.primary,
-                                dotHeight: 8,
-                                dotWidth: 8,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 16,
-                          left: 16,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const MainScreen(loadScreen: 2),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.arrow_back),
-                            style: IconButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppColors.primary,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 16,
-                          right: 16,
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isFavorite = !isFavorite;
-                              });
-                              if (isFavorite) {
-                                UserServices().addToFavorites(
-                                  FirebaseAuth.instance.currentUser!.uid,
-                                  widget.index.toString(),
-                                );
-                              } else {
-                                UserServices().removeFromFavorites(
-                                  FirebaseAuth.instance.currentUser!.uid,
-                                  widget.index.toString(),
-                                );
-                              }
-                            },
-                            icon: isFavorite
-                                ? Icon(
-                                    Icons.favorite,
-                                    color: AppColors.error,
-                                  )
-                                : Icon(Icons.favorite_border),
-                            style: IconButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: AppColors.primary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainScreen(loadScreen: 2),
+          ),
+        );
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
                         children: [
-                          Text(
-                            widget.itemName,
-                            style: const TextStyle(
-                              color: AppColors.headingText,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Text(
-                                '\$${widget.price.toStringAsFixed(2)}',
-                                style: const TextStyle(
-                                  color: AppColors.primary,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const Spacer(),
-                              Row(
-                                children: [
-                                  ...List.generate(5, (index) {
-                                    return Icon(
-                                      index < rating.floor()
-                                          ? Icons.star
-                                          : index < rating
-                                              ? Icons.star_half
-                                              : Icons.star_border,
-                                      color: Colors.amber,
-                                      size: 20,
-                                    );
-                                  }),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    rating.toString(),
-                                    style: const TextStyle(
-                                      color: AppColors.bodyText,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                          SizedBox(
+                            height: 300,
+                            child: PageView.builder(
+                              controller: _pageController,
+                              itemCount: images.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primary.withOpacity(0.1),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          const Text(
-                            'Description',
-                            style: TextStyle(
-                              color: AppColors.headingText,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                                  child: Image.asset(
+                                    images[index],
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              },
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Text(
-                            widget.description,
-                            style: const TextStyle(
-                              color: AppColors.bodyText,
-                              fontSize: 16,
-                              height: 1.5,
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          Row(
-                            children: [
-                              const Text(
-                                'Quantity',
-                                style: TextStyle(
-                                  color: AppColors.headingText,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                          Positioned(
+                            bottom: 16,
+                            left: 0,
+                            right: 0,
+                            child: Center(
+                              child: SmoothPageIndicator(
+                                controller: _pageController,
+                                count: images.length,
+                                effect: WormEffect(
+                                  dotColor: Colors.grey.shade400,
+                                  activeDotColor: AppColors.primary,
+                                  dotHeight: 8,
+                                  dotWidth: 8,
                                 ),
                               ),
-                              const Spacer(),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border:
-                                      Border.all(color: AppColors.borderColor),
+                            ),
+                          ),
+                          Positioned(
+                            top: 16,
+                            left: 16,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MainScreen(loadScreen: 2),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.arrow_back),
+                              style: IconButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: AppColors.primary,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 16,
+                            right: 16,
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isFavorite = !isFavorite;
+                                });
+                                if (isFavorite) {
+                                  UserServices().addToFavorites(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                    widget.index.toString(),
+                                  );
+                                } else {
+                                  UserServices().removeFromFavorites(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                    widget.index.toString(),
+                                  );
+                                }
+                              },
+                              icon: isFavorite
+                                  ? Icon(
+                                      Icons.favorite,
+                                      color: AppColors.error,
+                                    )
+                                  : Icon(Icons.favorite_border),
+                              style: IconButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: AppColors.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.itemName,
+                              style: const TextStyle(
+                                color: AppColors.headingText,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  '\$${widget.price.toStringAsFixed(2)}',
+                                  style: const TextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                                child: Row(
+                                const Spacer(),
+                                Row(
                                   children: [
-                                    IconButton(
-                                      onPressed: _decrementQuantity,
-                                      icon: const Icon(Icons.remove),
-                                      color: AppColors.primary,
-                                    ),
+                                    ...List.generate(5, (index) {
+                                      return Icon(
+                                        index < rating.floor()
+                                            ? Icons.star
+                                            : index < rating
+                                                ? Icons.star_half
+                                                : Icons.star_border,
+                                        color: Colors.amber,
+                                        size: 20,
+                                      );
+                                    }),
+                                    const SizedBox(width: 4),
                                     Text(
-                                      quantity.toString(),
+                                      rating.toString(),
                                       style: const TextStyle(
-                                        fontSize: 18,
+                                        color: AppColors.bodyText,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    IconButton(
-                                      onPressed: _incrementQuantity,
-                                      icon: const Icon(Icons.add),
-                                      color: AppColors.primary,
-                                    ),
                                   ],
                                 ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            const Text(
+                              'Description',
+                              style: TextStyle(
+                                color: AppColors.headingText,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 24),
-                          const Text(
-                            'Reviews',
-                            style: TextStyle(
-                              color: AppColors.headingText,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
                             ),
-                          ),
-
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: ItemData()
-                                    .itemDataList[int.parse(widget.index)]
-                                    .rating
-                                    ?.length ??
-                                0,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1,
-                              childAspectRatio: 3.5,
-                              mainAxisSpacing: 16,
+                            const SizedBox(height: 8),
+                            Text(
+                              widget.description,
+                              style: const TextStyle(
+                                color: AppColors.bodyText,
+                                fontSize: 16,
+                                height: 1.5,
+                              ),
                             ),
-                            itemBuilder: (context, index) {
-                              return ReviewCard(
-                                userEmail: ItemData()
-                                        .itemDataList[int.parse(widget.index)]
-                                        .rating?[index]
-                                        .user ??
-                                    'Anonymous',
-                                massage: ItemData()
-                                        .itemDataList[int.parse(widget.index)]
-                                        .rating?[index]
-                                        .massage ??
-                                    'No massage',
-                                rateValue: ItemData()
-                                        .itemDataList[int.parse(widget.index)]
-                                        .rating?[index]
-                                        .rating ??
-                                    0,
-                              );
-                            },
-                          ),
+                            const SizedBox(height: 24),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Quantity',
+                                  style: TextStyle(
+                                    color: AppColors.headingText,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: AppColors.borderColor),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: _decrementQuantity,
+                                        icon: const Icon(Icons.remove),
+                                        color: AppColors.primary,
+                                      ),
+                                      Text(
+                                        quantity.toString(),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: _incrementQuantity,
+                                        icon: const Icon(Icons.add),
+                                        color: AppColors.primary,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 24),
+                            const Text(
+                              'Reviews',
+                              style: TextStyle(
+                                color: AppColors.headingText,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
 
-                          // Review Cards
-                        ],
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: ItemData()
+                                      .itemDataList[int.parse(widget.index)]
+                                      .rating
+                                      ?.length ??
+                                  0,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                childAspectRatio: 3.5,
+                                mainAxisSpacing: 16,
+                              ),
+                              itemBuilder: (context, index) {
+                                return ReviewCard(
+                                  userEmail: ItemData()
+                                          .itemDataList[int.parse(widget.index)]
+                                          .rating?[index]
+                                          .user ??
+                                      'Anonymous',
+                                  massage: ItemData()
+                                          .itemDataList[int.parse(widget.index)]
+                                          .rating?[index]
+                                          .massage ??
+                                      'No massage',
+                                  rateValue: ItemData()
+                                          .itemDataList[int.parse(widget.index)]
+                                          .rating?[index]
+                                          .rating ??
+                                      0,
+                                );
+                              },
+                            ),
+
+                            // Review Cards
+                          ],
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Total: \$${(widget.price * quantity).toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          color: AppColors.headingText,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: isLoading
+                          ? null
+                          : () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+
+                              await UserServices().addToCart(
+                                FirebaseAuth.instance.currentUser!.uid,
+                                widget.index.toString(),
+                                quantity,
+                              );
+
+                              setState(() {
+                                isLoading = false;
+                              });
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
+                      ),
+                      child: isLoading
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              'Add to Cart',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Total: \$${(widget.price * quantity).toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        color: AppColors.headingText,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: isLoading
-                        ? null
-                        : () async {
-                            setState(() {
-                              isLoading = true;
-                            });
-
-                            await UserServices().addToCart(
-                              FirebaseAuth.instance.currentUser!.uid,
-                              widget.index.toString(),
-                              quantity,
-                            );
-
-                            setState(() {
-                              isLoading = false;
-                            });
-                          },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                    ),
-                    child: isLoading
-                        ? SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Text(
-                            'Add to Cart',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

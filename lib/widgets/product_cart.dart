@@ -11,6 +11,7 @@ class ProductCard extends StatefulWidget {
   final String imageUrl;
   final int index;
   final String uid;
+  // final String type;
 
   const ProductCard({
     super.key,
@@ -20,6 +21,7 @@ class ProductCard extends StatefulWidget {
     required this.imageUrl,
     required this.index,
     required this.uid,
+    // required this.type,
   });
 
   @override
