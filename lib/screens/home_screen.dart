@@ -177,17 +177,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     },
-                    child: itemData.itemDataList[index].type == "Coffee"
-                        ? ProductCard(
-                            uid: user!.uid,
-                            index: index,
-                            name: itemData.itemDataList[index].name,
-                            description:
-                                itemData.itemDataList[index].description,
-                            price: itemData.itemDataList[index].price,
-                            imageUrl: itemData.itemDataList[index].imageUrl,
-                          )
-                        : null,
+                    child: ProductCard(
+                      uid: user!.uid,
+                      index: index,
+                      name: itemData.itemDataList[index].name,
+                      description: itemData.itemDataList[index].description,
+                      price: itemData.itemDataList[index].price,
+                      imageUrl: itemData.itemDataList[index].imageUrl,
+                    ),
                   );
                 },
               ),

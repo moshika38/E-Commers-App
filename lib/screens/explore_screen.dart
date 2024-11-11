@@ -30,11 +30,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
+                    padding: const EdgeInsets.symmetric(vertical: 24),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Explore Coffee',
                           style: TextStyle(
                             color: AppColors.headingText,
@@ -44,7 +44,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                         ),
                         Text(
                           "(${itemData.itemDataList.length} items)",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             color: AppColors.bodyText,
@@ -141,7 +141,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       child: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: itemData.itemDataList.length,
+                        itemCount: itemData.itemDataList
+                            .where((item) =>
+                                selectedCategory == 'All' ||
+                                selectedCategory == item.type)
+                            .length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 1,
@@ -149,17 +153,24 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           mainAxisSpacing: 20,
                         ),
                         itemBuilder: (context, index) {
+                          final filteredItems = itemData.itemDataList
+                              .where((item) =>
+                                  selectedCategory == 'All' ||
+                                  selectedCategory == item.type)
+                              .toList();
+                          final item = filteredItems[index];
+
                           return CoffeeCard(
+                            selectedCategory: selectedCategory,
                             index: index,
-                            title: itemData.itemDataList[index].name,
-                            description:
-                                itemData.itemDataList[index].description,
-                            imagePath: itemData.itemDataList[index].imageUrl,
-                            price: itemData.itemDataList[index].price,
-                            rating:
-                                itemData.itemDataList[index].rating![0].rating,
-                            reviews:
-                                itemData.itemDataList[index].rating!.length,
+                            title: item.name,
+                            description: item.description,
+                            imagePath: item.imageUrl,
+                            price: item.price,
+                            rating: item.rating?.isNotEmpty == true
+                                ? item.rating![0].rating
+                                : 0.0,
+                            reviews: item.rating?.length ?? 0,
                           );
                         },
                       ),

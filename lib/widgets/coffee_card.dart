@@ -11,6 +11,7 @@ class CoffeeCard extends StatefulWidget {
   final double rating;
   final int reviews;
   final int index;
+  final String selectedCategory;
 
   const CoffeeCard({
     super.key,
@@ -21,6 +22,7 @@ class CoffeeCard extends StatefulWidget {
     required this.rating,
     required this.reviews,
     required this.index,
+    required this.selectedCategory,
   });
 
   @override
@@ -45,7 +47,10 @@ class _CoffeeCardState extends State<CoffeeCard> {
   @override
   void initState() {
     super.initState();
-    isItemFavoriteOrNot(widget.index);
+    if (widget.selectedCategory == 'Coffee' ||
+        widget.selectedCategory == 'All') {
+      isItemFavoriteOrNot(widget.index);
+    }
   }
 
   @override
@@ -66,27 +71,6 @@ class _CoffeeCardState extends State<CoffeeCard> {
                   height: 160,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: isFavorite ? Colors.red : Colors.grey,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isFavorite = !isFavorite;
-                      });
-                    },
-                  ),
                 ),
               ),
             ],

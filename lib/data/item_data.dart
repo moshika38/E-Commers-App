@@ -216,7 +216,165 @@ class ItemData {
           itemName: "English Breakfast",
         ),
       ],
+    ),
+
+
+
+    ItemModel(
+      id: "12",
+      name: "Chocolate Croissant",
+      description: "Buttery, flaky croissant filled with rich chocolate",
+      price: 4.5,
+      imageUrl: "assets/images/chocolate_croissant.jpg", 
+      type: "Pastries",
+      rating: [
+        RatingModel(
+          rating: 4.7,
+          massage: "Perfect balance of chocolate and buttery pastry!",
+          user: "emma.davis@email.com",
+          itemName: "Chocolate Croissant",
+        ),
+        RatingModel(
+          rating: 4.8,
+          massage: "My favorite breakfast pastry",
+          user: "noah.wilson@email.com", 
+          itemName: "Chocolate Croissant",
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "13", 
+      name: "Almond Danish",
+      description: "Flaky pastry topped with sliced almonds and sweet glaze",
+      price: 4.75,
+      imageUrl: "assets/images/almond_danish.jpg",
+      type: "Pastries",
+      rating: [
+        RatingModel(
+          rating: 4.6,
+          massage: "Love the almond flavor and flaky texture",
+          user: "ava.brown@email.com",
+          itemName: "Almond Danish", 
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "14",
+      name: "Cinnamon Roll",
+      description: "Classic pastry swirled with cinnamon and topped with cream cheese frosting",
+      price: 5.0,
+      imageUrl: "assets/images/cinnamon_roll.jpg",
+      type: "Pastries",
+      rating: [
+        RatingModel(
+          rating: 4.9,
+          massage: "Best cinnamon roll I've ever had!",
+          user: "liam.taylor@email.com",
+          itemName: "Cinnamon Roll",
+        ),
+        RatingModel(
+          rating: 4.7,
+          massage: "Perfect amount of frosting and cinnamon",
+          user: "sophia.miller@email.com",
+          itemName: "Cinnamon Roll", 
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "15",
+      name: "Fruit Danish",
+      description: "Buttery pastry filled with seasonal fruits and vanilla custard",
+      price: 4.95,
+      imageUrl: "assets/images/fruit_danish.jpg",
+      type: "Pastries",
+      rating: [
+        RatingModel(
+          rating: 4.5,
+          massage: "Fresh fruits and creamy custard make this amazing",
+          user: "oliver.jones@email.com",
+          itemName: "Fruit Danish",
+        ),
+      ],
+    ),
+
+
+    ItemModel(
+      id: "16",
+      name: "Chocolate Cake",
+      description: "Rich, moist chocolate cake layered with chocolate ganache",
+      price: 6.50,
+      imageUrl: "assets/images/chocolate_cake.jpg", 
+      type: "Desserts",
+      rating: [
+        RatingModel(
+          rating: 4.8,
+          massage: "Decadent and delicious! Perfect for chocolate lovers",
+          user: "emma.wilson@email.com",
+          itemName: "Chocolate Cake",
+        ),
+        RatingModel(
+          rating: 4.9,
+          massage: "The ganache is to die for!",
+          user: "noah.clark@email.com",
+          itemName: "Chocolate Cake",
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "17", 
+      name: "Cheesecake",
+      description: "Classic New York style cheesecake with graham cracker crust",
+      price: 7.00,
+      imageUrl: "assets/images/cheesecake.jpg",
+      type: "Desserts", 
+      rating: [
+        RatingModel(
+          rating: 4.7,
+          massage: "Creamy and smooth - just perfect!",
+          user: "isabella.white@email.com",
+          itemName: "Cheesecake",
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "18",
+      name: "Tiramisu",
+      description: "Italian dessert with coffee-soaked ladyfingers and mascarpone cream",
+      price: 6.75,
+      imageUrl: "assets/images/tiramisu.jpg",
+      type: "Desserts",
+      rating: [
+        RatingModel(
+          rating: 4.9,
+          massage: "Authentic taste, reminds me of Italy!",
+          user: "lucas.martin@email.com",
+          itemName: "Tiramisu",
+        ),
+        RatingModel(
+          rating: 4.8,
+          massage: "The coffee flavor is perfectly balanced",
+          user: "mia.anderson@email.com",
+          itemName: "Tiramisu",
+        ),
+      ],
+    ),
+    ItemModel(
+      id: "19",
+      name: "Apple Pie",
+      description: "Traditional apple pie with flaky crust and cinnamon-spiced filling",
+      price: 5.95,
+      imageUrl: "assets/images/apple_pie.jpg",
+      type: "Desserts",
+      rating: [
+        RatingModel(
+          rating: 4.6,
+          massage: "Just like grandma used to make!",
+          user: "ethan.moore@email.com",
+          itemName: "Apple Pie",
+        ),
+      ],
     )
+
 
   ];
 
