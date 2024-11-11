@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/item_data.dart';
+import 'package:flutter_application_1/screens/item_screen.dart';
 import 'package:flutter_application_1/widgets/category_tab.dart';
 import 'package:flutter_application_1/widgets/coffee_card.dart';
 import '../utils/app_colors.dart';
@@ -22,7 +23,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     super.initState();
     if (widget.select != null) {
       setState(() {
-        selectedCategory=widget.select.toString();
+        selectedCategory = widget.select.toString();
       });
     }
   }
@@ -53,14 +54,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Text(
-                          "(${itemData.itemDataList.length} items)",
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.bodyText,
-                          ),
-                        ),
+                         
                       ],
                     ),
                   ),
@@ -171,17 +165,33 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               .toList();
                           final item = filteredItems[index];
 
-                          return CoffeeCard(
-                            selectedCategory: selectedCategory,
-                            index: index,
-                            title: item.name,
-                            description: item.description,
-                            imagePath: item.imageUrl,
-                            price: item.price,
-                            rating: item.rating?.isNotEmpty == true
-                                ? item.rating![0].rating
-                                : 0.0,
-                            reviews: item.rating?.length ?? 0,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ItemScreen(
+                                    description: item.description,
+                                    imageUrl: item.imageUrl,
+                                    itemName: item.name,
+                                    price: item.price,
+                                    index: index.toString(),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: CoffeeCard(
+                              selectedCategory: selectedCategory,
+                              index: index,
+                              title: item.name,
+                              description: item.description,
+                              imagePath: item.imageUrl,
+                              price: item.price,
+                              rating: item.rating?.isNotEmpty == true
+                                  ? item.rating![0].rating
+                                  : 0.0,
+                              reviews: item.rating?.length ?? 0,
+                            ),
                           );
                         },
                       ),

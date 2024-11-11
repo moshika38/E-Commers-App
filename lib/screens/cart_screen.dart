@@ -29,9 +29,11 @@ class _CartScreenState extends State<CartScreen> {
     final quantities = await UserServices().getCartQuantities(
       FirebaseAuth.instance.currentUser!.uid,
     );
-    setState(() {
-      cartIQty = quantities;
-    });
+    if (mounted) {
+      setState(() {
+        cartIQty = quantities;
+      });
+    }
   }
 
   void getUserCart() async {

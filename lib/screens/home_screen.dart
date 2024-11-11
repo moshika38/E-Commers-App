@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                      child: CategoryItem(icon: Icons.coffee, label: 'Coffee'),
+                      child: const CategoryItem(icon: Icons.coffee, label: 'Coffee'),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       },
-                      child: CategoryItem(icon: Icons.local_cafe, label: 'Tea'),
+                      child: const CategoryItem(icon: Icons.local_cafe, label: 'Tea'),
                     ),
                     GestureDetector(
                         onTap: () {
@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         },
-                        child: CategoryItem(
+                        child: const CategoryItem(
                             icon: Icons.cookie, label: 'Pastries')),
                     GestureDetector(
                         onTap: () {
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         },
-                        child: CategoryItem(
+                        child: const CategoryItem(
                             icon: Icons.icecream, label: 'Desserts')),
                   ],
                 ),

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/item_data.dart';
-import 'package:flutter_application_1/screens/main_screen.dart';
 import 'package:flutter_application_1/services/user_services.dart';
 import '../utils/app_colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -89,12 +88,7 @@ class _ItemScreenState extends State<ItemScreen> {
     // scaffold
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const MainScreen(loadScreen: 2),
-          ),
-        );
+        Navigator.pop(context);
         return false;
       },
       child: Scaffold(
@@ -149,13 +143,7 @@ class _ItemScreenState extends State<ItemScreen> {
                             left: 16,
                             child: IconButton(
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MainScreen(loadScreen: 2),
-                                  ),
-                                );
+                                Navigator.pop(context);
                               },
                               icon: const Icon(Icons.arrow_back),
                               style: IconButton.styleFrom(
