@@ -33,26 +33,38 @@ class UserServices {
 
   // favorites
 
+  // Favorites collection reference
+  final CollectionReference favoritesCollection =
+      FirebaseFirestore.instance.collection('favorites');
+
   // Add to favorites list
   Future<void> addToFavorites(String userId, String itemId) async {
-    await collection.doc(userId).update({
-      'favorites': FieldValue.arrayUnion([itemId])
-    });
+    DocumentSnapshot favDoc = await favoritesCollection.doc(userId).get();
+
+    if (!favDoc.exists) {
+      // Create new favorites document if it doesn't exist
+      await favoritesCollection.doc(userId).set({
+        'userId': userId,
+        'favorites': [itemId]
+      });
+    } else {
+      // Add to existing favorites
+      await favoritesCollection.doc(userId).update({
+        'favorites': FieldValue.arrayUnion([itemId])
+      });
+    }
   }
 
   // Remove from favorites list
   Future<void> removeFromFavorites(String userId, String itemId) async {
-    await collection.doc(userId).update({
+    await favoritesCollection.doc(userId).update({
       'favorites': FieldValue.arrayRemove([itemId])
     });
   }
 
-  // Remove from favorites list by name
- 
-
   // Get user's favorites
   Future<List<String>> getUserFavorites(String userId) async {
-    DocumentSnapshot doc = await collection.doc(userId).get();
+    DocumentSnapshot doc = await favoritesCollection.doc(userId).get();
     if (doc.exists) {
       final data = doc.data() as Map<String, dynamic>;
       return List<String>.from(data['favorites'] ?? []);
@@ -63,11 +75,11 @@ class UserServices {
   // Check if item is in user's favorites
   Future<bool> isItemFavorite(String userId, String itemId) async {
     try {
-      DocumentSnapshot doc = await collection.doc(userId).get();
+      DocumentSnapshot doc = await favoritesCollection.doc(userId).get();
       if (doc.exists) {
         final data = doc.data() as Map<String, dynamic>;
         final favorites = List<String>.from(data['favorites'] ?? []);
-        return favorites.contains(itemId) ? true : false;
+        return favorites.contains(itemId);
       }
       return false;
     } catch (e) {

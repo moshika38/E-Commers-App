@@ -19,9 +19,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   void getFavItems() async {
     final items = await UserServices()
         .getUserFavorites(FirebaseAuth.instance.currentUser!.uid);
-    setState(() {
-      favItemIndex = items;
-    });
+    if (mounted) {
+      setState(() {
+        favItemIndex = items;
+      });
+    }
   }
 
   @override
