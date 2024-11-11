@@ -330,7 +330,7 @@ class _ItemScreenState extends State<ItemScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 1,
-                                childAspectRatio: 3.5,
+                                childAspectRatio: 3.2,
                                 mainAxisSpacing: 16,
                               ),
                               itemBuilder: (context, index) {

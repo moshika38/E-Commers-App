@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/item_data.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 import 'package:flutter_application_1/screens/item_screen.dart';
+import 'package:flutter_application_1/screens/main_screen.dart';
 import 'package:flutter_application_1/screens/notification_sereen.dart';
 import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/widgets/banner.dart';
@@ -118,19 +119,78 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(loadScreen: 0),
+                        ),
+                      );
+                    },
                     child: const Text('See All'),
                   ),
                 ],
               ),
-              const SingleChildScrollView(
+              SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    CategoryItem(icon: Icons.coffee, label: 'Coffee'),
-                    CategoryItem(icon: Icons.local_cafe, label: 'Tea'),
-                    CategoryItem(icon: Icons.cookie, label: 'Pastries'),
-                    CategoryItem(icon: Icons.icecream, label: 'Desserts'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MainScreen(
+                              loadScreen: 0,
+                              select: 'Coffee',
+                            ),
+                          ),
+                        );
+                      },
+                      child: CategoryItem(icon: Icons.coffee, label: 'Coffee'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MainScreen(
+                              loadScreen: 0,
+                              select: 'Tea',
+                            ),
+                          ),
+                        );
+                      },
+                      child: CategoryItem(icon: Icons.local_cafe, label: 'Tea'),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainScreen(
+                                loadScreen: 0,
+                                select: 'Pastries',
+                              ),
+                            ),
+                          );
+                        },
+                        child: CategoryItem(
+                            icon: Icons.cookie, label: 'Pastries')),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainScreen(
+                                loadScreen: 0,
+                                select: 'Desserts',
+                              ),
+                            ),
+                          );
+                        },
+                        child: CategoryItem(
+                            icon: Icons.icecream, label: 'Desserts')),
                   ],
                 ),
               ),
@@ -145,7 +205,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(loadScreen: 0),
+                        ),
+                      );
+                    },
                     child: const Text('See All'),
                   ),
                 ],

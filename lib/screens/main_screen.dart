@@ -12,9 +12,11 @@ import '../utils/app_colors.dart';
 
 class MainScreen extends StatefulWidget {
   final int? loadScreen;
+  final String? select;
   const MainScreen({
     super.key,
     this.loadScreen,
+    this.select,
   });
 
   @override
@@ -25,6 +27,8 @@ class _MainScreenState extends State<MainScreen> {
   int currentIndex = 2;
   UserModel? userModel;
   User? user;
+  late List<Widget> screens;
+
   void createUserProfile() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
@@ -74,6 +78,13 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    screens = [
+      ExploreScreen(select: widget.select),
+      const CartScreen(),
+      const HomeScreen(),
+      const FavoritesScreen(),
+      const ProfileScreen(),
+    ];
     createUserProfile();
 
     if (widget.loadScreen != null) {
@@ -82,14 +93,6 @@ class _MainScreenState extends State<MainScreen> {
       });
     }
   }
-
-  List<Widget> screens = [
-    const ExploreScreen(),
-    const CartScreen(),
-    const HomeScreen(),
-    const FavoritesScreen(),
-    const ProfileScreen(),
-  ];
 
   @override
   Widget build(BuildContext context) {

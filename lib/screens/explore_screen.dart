@@ -5,7 +5,8 @@ import 'package:flutter_application_1/widgets/coffee_card.dart';
 import '../utils/app_colors.dart';
 
 class ExploreScreen extends StatefulWidget {
-  const ExploreScreen({super.key});
+  final String? select;
+  const ExploreScreen({super.key, this.select});
 
   @override
   State<ExploreScreen> createState() => _ExploreScreenState();
@@ -15,6 +16,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
   String selectedCategory = 'All';
 
   final ItemData itemData = ItemData();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.select != null) {
+      setState(() {
+        selectedCategory=widget.select.toString();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
