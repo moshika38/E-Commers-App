@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/models/address_model.dart';
+import 'package:flutter_application_1/models/payment_model.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/logout.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/payment.dart';
 import 'package:flutter_application_1/widgets/profile_widgets/user_details.dart';
@@ -20,10 +21,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   UserModel? userModel;
   AddressModel? userAddresses;
+  PaymentModel? paymentDetails;
   String displayName = "Guest";
   String profileImage = "";
   String userEmail = "";
-  
+
   void getCurrentUserDetails() async {
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
@@ -41,11 +43,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
 
       UserServices().getUserAddresses(currentUser.uid).then((value) {
-        
-          setState(() {
-            userAddresses = value;
-          });
-        
+        setState(() {
+          userAddresses = value;
+        });
+      });
+      UserServices().getUserPayment(currentUser.uid).then((value) {
+        setState(() {
+          paymentDetails = value;
+        });
       });
     }
   }
@@ -169,7 +174,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: Icons.payment_outlined,
                   title: 'Payment Method',
                   onTap: () {
-                    PaymentWindow(context: context).showWindow();
+                    PaymentWindow(
+                      context: context,
+                      paymentDetails: paymentDetails,
+                    ).showWindow();
                   },
                 ),
                 _buildProfileOption(

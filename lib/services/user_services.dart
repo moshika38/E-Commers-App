@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/models/address_model.dart';
 import 'package:flutter_application_1/models/cart_model.dart';
+import 'package:flutter_application_1/models/payment_model.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 
 class UserServices {
@@ -240,4 +241,54 @@ class UserServices {
       return AddressModel(id: userId); // Provide userId as default ID
     }
   }
+
+
+
+  // Payment collection reference
+  final CollectionReference paymentCollection =
+      FirebaseFirestore.instance.collection('payments');
+
+  // Add payment card
+  Future<void> addPayment(String userId, PaymentModel payment) async {
+    try {
+      await paymentCollection.doc(userId).set({
+        'payments': [payment.toMap()]
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // Get user payment card
+  Future<PaymentModel> getUserPayment(String userId) async {
+    try {
+      DocumentSnapshot doc = await paymentCollection.doc(userId).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        List<dynamic> payments = data['payments'] ?? [];
+        if (payments.isNotEmpty) {
+          return PaymentModel.fromMap(payments[0]);
+        }
+      }
+      return PaymentModel(
+        id: userId,
+        cardNumber: '',
+        expiryDate: '',
+        holderName: '',
+        cvv: ''
+      ); // Return empty payment model with userId
+    } catch (e) {
+      print(e);
+      return PaymentModel(
+        id: userId,
+        cardNumber: '',
+        expiryDate: '',
+        holderName: '',
+        cvv: ''
+      ); // Return empty payment model with userId
+    }
+  }
+
+
+
 }

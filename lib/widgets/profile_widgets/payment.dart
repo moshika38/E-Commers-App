@@ -1,15 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/payment_model.dart';
+import 'package:flutter_application_1/screens/main_screen.dart';
+import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
-
 
 class PaymentWindow {
   final BuildContext context;
+  final PaymentModel? paymentDetails;
 
   PaymentWindow({
     required this.context,
+    this.paymentDetails,
   });
 
   void showWindow() {
+    TextEditingController cardNumber =
+        TextEditingController(text: paymentDetails?.cardNumber ?? "");
+    TextEditingController expiryDate =
+        TextEditingController(text: paymentDetails?.expiryDate ?? "");
+    TextEditingController cvv =
+        TextEditingController(text: paymentDetails?.cvv ?? "");
+    TextEditingController cardholderName =
+        TextEditingController(text: paymentDetails?.holderName ?? "");
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -39,6 +53,7 @@ class PaymentWindow {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TextField(
+                        controller: cardNumber,
                         decoration: InputDecoration(
                           labelText: 'Card Number',
                           prefixIcon: const Icon(Icons.credit_card,
@@ -54,6 +69,7 @@ class PaymentWindow {
                         children: [
                           Expanded(
                             child: TextField(
+                              controller: expiryDate,
                               decoration: InputDecoration(
                                 labelText: 'Expiry Date (MM/YY)',
                                 prefixIcon: const Icon(Icons.calendar_today,
@@ -68,6 +84,7 @@ class PaymentWindow {
                           const SizedBox(width: 20),
                           Expanded(
                             child: TextField(
+                              controller: cvv,
                               decoration: InputDecoration(
                                 labelText: 'CVV',
                                 prefixIcon: const Icon(Icons.security,
@@ -85,6 +102,7 @@ class PaymentWindow {
                       ),
                       const SizedBox(height: 20),
                       TextField(
+                        controller: cardholderName,
                         decoration: InputDecoration(
                           labelText: 'Cardholder Name',
                           prefixIcon: const Icon(Icons.person,
@@ -111,7 +129,43 @@ class PaymentWindow {
                           ElevatedButton(
                             onPressed: () {
                               // Handle save payment method logic here
-                              Navigator.pop(context);
+                              if (cardNumber.text.isEmpty ||
+                                  expiryDate.text.isEmpty ||
+                                  cvv.text.isEmpty ||
+                                  cardholderName.text.isEmpty) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Please fill in all fields'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              } else {
+                                String userId =
+                                    FirebaseAuth.instance.currentUser!.uid;
+                                PaymentModel paymentData = PaymentModel(
+                                  cardNumber: cardNumber.text,
+                                  expiryDate: expiryDate.text,
+                                  cvv: cvv.text,
+                                  holderName: cardholderName.text,
+                                  id: userId,
+                                );
+                                UserServices().addPayment(userId, paymentData);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Payment method saved'),
+                                    backgroundColor: AppColors.primary,
+                                  ),
+                                );
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MainScreen(loadScreen: 4),
+                                  ),
+                                );
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
