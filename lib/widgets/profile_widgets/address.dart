@@ -1,20 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/address_model.dart';
+import 'package:flutter_application_1/screens/main_screen.dart';
 import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
 
 class AddressWindow {
   final BuildContext context;
+  final AddressModel? addressModel;
 
   AddressWindow({
+    this.addressModel,
     required this.context,
   });
 
   void showWindow() async {
-    TextEditingController streetAddress = TextEditingController();
-    TextEditingController city = TextEditingController();
-    TextEditingController state = TextEditingController();
-    TextEditingController postalCode = TextEditingController();
+    TextEditingController streetAddress =
+        TextEditingController(text: addressModel?.street ?? "");
+    TextEditingController city =
+        TextEditingController(text: addressModel?.city ?? "");
+    TextEditingController state =
+        TextEditingController(text: addressModel?.state ?? "");
+    TextEditingController postalCode =
+        TextEditingController(text: addressModel?.zipCode ?? "");
 
     showDialog(
       context: context,
@@ -38,7 +46,7 @@ class AddressWindow {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -90,7 +98,7 @@ class AddressWindow {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 18),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -124,19 +132,15 @@ class AddressWindow {
                               String userId =
                                   FirebaseAuth.instance.currentUser!.uid;
 
-                              // Create address map
-                              Map<String, dynamic> addressFields = {
-                                'address': {
-                                  'street': streetAddress.text,
-                                  'city': city.text,
-                                  'state': state.text,
-                                  'postalCode': postalCode.text
-                                }
-                              };
+                              AddressModel address = AddressModel(
+                                id: userId,
+                                street: streetAddress.text,
+                                city: city.text,
+                                state: state.text,
+                                zipCode: postalCode.text,
+                              );
 
-                              // Update user document
-                              UserServices()
-                                  .updateUserFields(userId, addressFields);
+                              UserServices().addAddress(userId, address);
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -145,6 +149,13 @@ class AddressWindow {
                                 ),
                               );
                               Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const MainScreen(loadScreen: 4),
+                                ),
+                              );
                             }
                           },
                           style: ElevatedButton.styleFrom(

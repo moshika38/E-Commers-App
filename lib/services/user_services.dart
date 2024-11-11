@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_1/models/address_model.dart';
 import 'package:flutter_application_1/models/cart_model.dart';
 import 'package:flutter_application_1/models/user_model.dart';
 
@@ -203,6 +204,40 @@ class UserServices {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  // Address collection reference
+  final CollectionReference addressCollection =
+      FirebaseFirestore.instance.collection('addresses');
+
+  // Add address
+  Future<void> addAddress(String userId, AddressModel address) async {
+    try {
+      await addressCollection.doc(userId).set({
+        'addresses': [address.toMap()]
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+  
+
+  // Get user addresses
+  Future<AddressModel> getUserAddresses(String userId) async {
+    try {
+      DocumentSnapshot doc = await addressCollection.doc(userId).get();
+      if (doc.exists) {
+        final data = doc.data() as Map<String, dynamic>;
+        List<dynamic> addresses = data['addresses'] ?? [];
+        if (addresses.isNotEmpty) {
+          return AddressModel.fromMap(addresses[0]);
+        }
+      }
+      return AddressModel(id: userId); // Provide userId as default ID
+    } catch (e) {
+      print(e);
+      return AddressModel(id: userId); // Provide userId as default ID
     }
   }
 }
