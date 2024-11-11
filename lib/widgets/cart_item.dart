@@ -13,7 +13,7 @@ class CartItem extends StatefulWidget {
   final int index;
   final Function(int) onQuantityChanged;
 
-  CartItem({
+  const CartItem({
     super.key,
     required this.image,
     required this.name,

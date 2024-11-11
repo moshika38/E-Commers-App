@@ -183,7 +183,7 @@ class _CartScreenState extends State<CartScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
                       SummaryRow(label: 'Subtotal', value: calculateSubtotal()),

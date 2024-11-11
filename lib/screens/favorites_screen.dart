@@ -39,15 +39,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: SafeArea(
         child: Container(
           constraints: const BoxConstraints(maxWidth: 1200),
-          margin: EdgeInsets.symmetric(horizontal: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Favorite Items',
                       style: TextStyle(
                         color: AppColors.headingText,
@@ -57,7 +57,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     ),
                     Text(
                       '(${favItemIndex.length} items)',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: AppColors.bodyText,
                       ),
                     ),

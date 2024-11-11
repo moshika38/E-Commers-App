@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/main_screen.dart';
 import 'package:flutter_application_1/services/user_services.dart';
 import 'package:flutter_application_1/utils/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
@@ -111,6 +112,12 @@ class UserDetails {
                     }
 
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MainScreen(loadScreen: 4),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
