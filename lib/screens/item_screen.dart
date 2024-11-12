@@ -173,11 +173,11 @@ class _ItemScreenState extends State<ItemScreen> {
                                 }
                               },
                               icon: isFavorite
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.favorite,
                                       color: AppColors.error,
                                     )
-                                  : Icon(Icons.favorite_border),
+                                  : const Icon(Icons.favorite_border),
                               style: IconButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 foregroundColor: AppColors.primary,
@@ -400,7 +400,7 @@ class _ItemScreenState extends State<ItemScreen> {
                         ),
                       ),
                       child: isLoading
-                          ? SizedBox(
+                          ? const SizedBox(
                               width: 20,
                               height: 20,
                               child: CircularProgressIndicator(
@@ -408,7 +408,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                 strokeWidth: 2,
                               ),
                             )
-                          : Text(
+                          : const Text(
                               'Add to Cart',
                               style: TextStyle(
                                 fontSize: 16,

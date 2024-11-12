@@ -41,12 +41,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Explore Coffee',
                           style: TextStyle(
                             color: AppColors.headingText,

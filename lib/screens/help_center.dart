@@ -74,34 +74,34 @@ class HelpCenter extends StatelessWidget {
                 border: Border.all(color: AppColors.borderColor),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Email: support@example.com',
                     style: TextStyle(
                       color: AppColors.bodyText,
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
+                  SizedBox(height: 8),
+                  Text(
                     'Phone: +1 234 567 8900',
                     style: TextStyle(
                       color: AppColors.bodyText,
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
+                  SizedBox(height: 8),
+                  Text(
                     'Hours: Monday - Friday, 9AM - 6PM EST',
                     style: TextStyle(
                       color: AppColors.bodyText,
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
+                  SizedBox(height: 8),
+                  Text(
                     'Address: 123 Support Street, Help City, HC 12345',
                     style: TextStyle(
                       color: AppColors.bodyText,
