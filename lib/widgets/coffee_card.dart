@@ -12,6 +12,7 @@ class CoffeeCard extends StatefulWidget {
   final int reviews;
   final int index;
   final String selectedCategory;
+  final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
 
   const CoffeeCard({
     super.key,
@@ -23,6 +24,7 @@ class CoffeeCard extends StatefulWidget {
     required this.reviews,
     required this.index,
     required this.selectedCategory,
+    this.errorBuilder,
   });
 
   @override
@@ -66,11 +68,19 @@ class _CoffeeCardState extends State<CoffeeCard> {
               ClipRRect(
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(12)),
-                child: Image.asset(
+                child: Image.network(
                   widget.imagePath,
                   height: 160,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  errorBuilder: widget.errorBuilder ?? (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey[200],
+                      child: const Center(
+                        child: Icon(Icons.error_outline, color: Colors.grey),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

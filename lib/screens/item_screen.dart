@@ -113,7 +113,7 @@ class _ItemScreenState extends State<ItemScreen> {
                                   decoration: BoxDecoration(
                                     color: AppColors.primary.withOpacity(0.1),
                                   ),
-                                  child: Image.asset(
+                                  child: Image.network(
                                     images[index],
                                     fit: BoxFit.cover,
                                   ),

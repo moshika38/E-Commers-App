@@ -58,7 +58,7 @@ class FavProductCardState extends State<FavProductCard> {
                   child: ClipRRect(
                     borderRadius:
                         const BorderRadius.vertical(top: Radius.circular(16)),
-                    child: Image.asset(
+                    child: Image.network(
                       widget.imageUrl,
                       width: double.infinity,
                       height: double.infinity,

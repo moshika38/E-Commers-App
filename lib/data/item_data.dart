@@ -3,14 +3,14 @@ import 'package:flutter_application_1/models/rating_model.dart';
 
 class ItemData {
   final List<ItemModel> itemDataList = [
-    
     // coffee items
     ItemModel(
       id: "1",
       name: "Black Coffee",
       description: "Pure black coffee",
       price: 5.0,
-      imageUrl: "assets/images/blackCoffee.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1521302080334-4bebac2763a6?ixlib=rb-4.0.3&w=400&q=80",
       type: "Coffee",
       rating: [
         RatingModel(
@@ -32,7 +32,8 @@ class ItemData {
       name: "Latte",
       description: "Espresso with milk",
       price: 6.0,
-      imageUrl: "assets/images/latte.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1541167760496-1628856ab772?ixlib=rb-4.0.3&w=400&q=80",
       type: "Coffee",
       rating: [
         RatingModel(
@@ -48,7 +49,8 @@ class ItemData {
       name: "Cappuccino",
       description: "Espresso with foam",
       price: 6.5,
-      imageUrl: "assets/images/Cappuccino.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1534778101976-62847782c213?ixlib=rb-4.0.3&w=400&q=80",
       type: "Coffee",
       rating: [
         RatingModel(
@@ -64,7 +66,8 @@ class ItemData {
       name: "Mocha",
       description: "Espresso with chocolate and milk",
       price: 7.0,
-      imageUrl: "assets/images/mocha.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?ixlib=rb-4.0.3&w=400&q=80",
       type: "Coffee",
       rating: [
         RatingModel(
@@ -86,7 +89,8 @@ class ItemData {
       name: "Espresso",
       description: "Strong concentrated coffee",
       price: 4.5,
-      imageUrl: "assets/images/espresso.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?ixlib=rb-4.0.3&w=400&q=80",
       type: "Coffee",
       rating: [
         RatingModel(
@@ -102,7 +106,8 @@ class ItemData {
       name: "Americano",
       description: "Espresso diluted with hot water",
       price: 5.5,
-      imageUrl: "assets/images/americano.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1551030173-122aabc4489c?ixlib=rb-4.0.3&w=400&q=80",
       type: "Coffee",
       rating: [
         RatingModel(
@@ -118,10 +123,10 @@ class ItemData {
       name: "Macchiato",
       description: "Espresso with a dash of milk foam",
       price: 6.0,
-      imageUrl: "assets/images/macchiato.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1485808191679-5f86510681a2?ixlib=rb-4.0.3&w=400&q=80",
       type: "Coffee",
       rating: [
-        // Macchiato ratings
         RatingModel(
           rating: 4.7,
           massage: "Love the subtle milk foam touch",
@@ -137,16 +142,14 @@ class ItemData {
       ],
     ),
 
-
-
-
     // tea items
     ItemModel(
       id: "8",
       name: "Green Tea",
       description: "Classic Japanese green tea with a delicate, earthy flavor",
       price: 4.5,
-      imageUrl: "assets/images/green_tea.jpg", 
+      imageUrl:
+          "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?ixlib=rb-4.0.3&w=400&q=80",
       type: "Tea",
       rating: [
         RatingModel(
@@ -158,17 +161,18 @@ class ItemData {
         RatingModel(
           rating: 4.8,
           massage: "Perfect authentic taste",
-          user: "david.chen@email.com", 
+          user: "david.chen@email.com",
           itemName: "Green Tea",
         ),
       ],
     ),
     ItemModel(
-      id: "9", 
+      id: "9",
       name: "Earl Grey",
       description: "Black tea flavored with oil of bergamot",
       price: 4.0,
-      imageUrl: "assets/images/earl_grey.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1597318181409-cf64d0b5d8a2?ixlib=rb-4.0.3&w=400&q=80",
       type: "Tea",
       rating: [
         RatingModel(
@@ -184,8 +188,9 @@ class ItemData {
       name: "Chamomile Tea",
       description: "Caffeine-free herbal tea with calming properties",
       price: 4.0,
-      imageUrl: "assets/images/chamomile.jpg",
-      type: "Tea", 
+      imageUrl:
+          "https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?ixlib=rb-4.0.3&w=400&q=80",
+      type: "Tea",
       rating: [
         RatingModel(
           rating: 4.5,
@@ -206,7 +211,8 @@ class ItemData {
       name: "English Breakfast",
       description: "Traditional blend of black teas",
       price: 4.5,
-      imageUrl: "assets/images/english_breakfast.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1587888637140-849b25d80ef9?ixlib=rb-4.0.3&w=400&q=80",
       type: "Tea",
       rating: [
         RatingModel(
@@ -218,14 +224,13 @@ class ItemData {
       ],
     ),
 
-
-
     ItemModel(
       id: "12",
       name: "Chocolate Croissant",
       description: "Buttery, flaky croissant filled with rich chocolate",
       price: 4.5,
-      imageUrl: "assets/images/chocolate_croissant.jpg", 
+      imageUrl:
+          "https://images.unsplash.com/photo-1549903072-7e6e0bedb7fb?ixlib=rb-4.0.3&w=400&q=80",
       type: "Pastries",
       rating: [
         RatingModel(
@@ -237,33 +242,36 @@ class ItemData {
         RatingModel(
           rating: 4.8,
           massage: "My favorite breakfast pastry",
-          user: "noah.wilson@email.com", 
+          user: "noah.wilson@email.com",
           itemName: "Chocolate Croissant",
         ),
       ],
     ),
     ItemModel(
-      id: "13", 
+      id: "13",
       name: "Almond Danish",
       description: "Flaky pastry topped with sliced almonds and sweet glaze",
       price: 4.75,
-      imageUrl: "assets/images/almond_danish.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1509365465985-25d11c17e812?ixlib=rb-4.0.3&w=400&q=80",
       type: "Pastries",
       rating: [
         RatingModel(
           rating: 4.6,
           massage: "Love the almond flavor and flaky texture",
           user: "ava.brown@email.com",
-          itemName: "Almond Danish", 
+          itemName: "Almond Danish",
         ),
       ],
     ),
     ItemModel(
       id: "14",
       name: "Cinnamon Roll",
-      description: "Classic pastry swirled with cinnamon and topped with cream cheese frosting",
+      description:
+          "Classic pastry swirled with cinnamon and topped with cream cheese frosting",
       price: 5.0,
-      imageUrl: "assets/images/cinnamon_roll.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1516832378525-ccd1bbeb9115?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Q2lubmFtb24lMjBSb2xsfGVufDB8fDB8fHww",
       type: "Pastries",
       rating: [
         RatingModel(
@@ -276,16 +284,18 @@ class ItemData {
           rating: 4.7,
           massage: "Perfect amount of frosting and cinnamon",
           user: "sophia.miller@email.com",
-          itemName: "Cinnamon Roll", 
+          itemName: "Cinnamon Roll",
         ),
       ],
     ),
     ItemModel(
       id: "15",
       name: "Fruit Danish",
-      description: "Buttery pastry filled with seasonal fruits and vanilla custard",
+      description:
+          "Buttery pastry filled with seasonal fruits and vanilla custard",
       price: 4.95,
-      imageUrl: "assets/images/fruit_danish.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1623428454614-abaf00244e52?ixlib=rb-4.0.3&w=400&q=80",
       type: "Pastries",
       rating: [
         RatingModel(
@@ -297,13 +307,13 @@ class ItemData {
       ],
     ),
 
-
     ItemModel(
       id: "16",
       name: "Chocolate Cake",
       description: "Rich, moist chocolate cake layered with chocolate ganache",
       price: 6.50,
-      imageUrl: "assets/images/chocolate_cake.jpg", 
+      imageUrl:
+          "https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&w=400&q=80",
       type: "Desserts",
       rating: [
         RatingModel(
@@ -321,12 +331,14 @@ class ItemData {
       ],
     ),
     ItemModel(
-      id: "17", 
+      id: "17",
       name: "Cheesecake",
-      description: "Classic New York style cheesecake with graham cracker crust",
+      description:
+          "Classic New York style cheesecake with graham cracker crust",
       price: 7.00,
-      imageUrl: "assets/images/cheesecake.jpg",
-      type: "Desserts", 
+      imageUrl:
+          "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?ixlib=rb-4.0.3&w=400&q=80",
+      type: "Desserts",
       rating: [
         RatingModel(
           rating: 4.7,
@@ -339,9 +351,11 @@ class ItemData {
     ItemModel(
       id: "18",
       name: "Tiramisu",
-      description: "Italian dessert with coffee-soaked ladyfingers and mascarpone cream",
+      description:
+          "Italian dessert with coffee-soaked ladyfingers and mascarpone cream",
       price: 6.75,
-      imageUrl: "assets/images/tiramisu.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&w=400&q=80",
       type: "Desserts",
       rating: [
         RatingModel(
@@ -361,9 +375,11 @@ class ItemData {
     ItemModel(
       id: "19",
       name: "Apple Pie",
-      description: "Traditional apple pie with flaky crust and cinnamon-spiced filling",
+      description:
+          "Traditional apple pie with flaky crust and cinnamon-spiced filling",
       price: 5.95,
-      imageUrl: "assets/images/apple_pie.jpg",
+      imageUrl:
+          "https://images.unsplash.com/photo-1621743478914-cc8a86d7e7b5?ixlib=rb-4.0.3&w=400&q=80",
       type: "Desserts",
       rating: [
         RatingModel(
@@ -374,8 +390,6 @@ class ItemData {
         ),
       ],
     )
-
-
   ];
 
   final Map<String, Map<String, dynamic>> items = {

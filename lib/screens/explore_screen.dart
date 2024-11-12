@@ -191,6 +191,17 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   ? item.rating![0].rating
                                   : 0.0,
                               reviews: item.rating?.length ?? 0,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: const Center(
+                                    child: Text('Failed to load image'),
+                                  ),
+                                );
+                              },
                             ),
                           );
                         },
